@@ -80,6 +80,10 @@
         .hidden { display: none !important; }
         .fade-in { animation: fadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards; opacity: 0; }
         @keyframes fadeIn { 0% { opacity: 0; transform: translateY(10px); } 100% { opacity: 1; transform: translateY(0); } }
+
+        /* ซ่อน Scrollbar สำหรับเนื้อหาที่ปัดได้ */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
 <body class="text-slate-800 min-h-screen flex overflow-x-hidden relative">
@@ -189,61 +193,51 @@
                         </div>
                     </div>
                 </div>
-<!-- ================= START ส่วนตกแต่งหน้าหลัก (ว้าวๆ) ================= -->
+                
+                <!-- 1. เมนูทางลัดอัจฉริยะ (Smart Quick Actions) -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 mt-6 mb-8">
+                    <button onclick="switchTab('about')" class="glass-panel p-5 rounded-3xl hover-float flex flex-col items-center justify-center text-center group border border-emerald-100/50 relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-br from-emerald-400 to-teal-500 opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+                        <div class="w-14 h-14 bg-emerald-100 rounded-full flex items-center justify-center text-3xl mb-3 group-hover:scale-110 transition-transform duration-300 shadow-inner">🏥</div>
+                        <h3 class="font-bold text-emerald-800 text-sm sm:text-base">ข้อมูลแผนก</h3>
+                    </button>
+                    
+                    <button onclick="switchTab('doctors')" class="glass-panel p-5 rounded-3xl hover-float flex flex-col items-center justify-center text-center group border border-emerald-100/50 relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-br from-teal-400 to-cyan-500 opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+                        <div class="w-14 h-14 bg-teal-100 rounded-full flex items-center justify-center text-3xl mb-3 group-hover:scale-110 transition-transform duration-300 shadow-inner">👨‍⚕️</div>
+                        <h3 class="font-bold text-teal-800 text-sm sm:text-base">ค้นหาแพทย์</h3>
+                    </button>
+                    
+                    <button onclick="switchTab('knowledge')" class="glass-panel p-5 rounded-3xl hover-float flex flex-col items-center justify-center text-center group border border-emerald-100/50 relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-br from-lime-400 to-emerald-500 opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+                        <div class="w-14 h-14 bg-lime-100 rounded-full flex items-center justify-center text-3xl mb-3 group-hover:scale-110 transition-transform duration-300 shadow-inner">💡</div>
+                        <h3 class="font-bold text-lime-800 text-sm sm:text-base">ความรู้สุขภาพ</h3>
+                    </button>
+                    
+                    <button onclick="switchTab('faq')" class="glass-panel p-5 rounded-3xl hover-float flex flex-col items-center justify-center text-center group border border-emerald-100/50 relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-br from-cyan-400 to-blue-500 opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+                        <div class="w-14 h-14 bg-cyan-100 rounded-full flex items-center justify-center text-3xl mb-3 group-hover:scale-110 transition-transform duration-300 shadow-inner">💬</div>
+                        <h3 class="font-bold text-cyan-800 text-sm sm:text-base">ถาม-ตอบ</h3>
+                    </button>
+                </div>
 
-<!-- 1. เมนูทางลัดอัจฉริยะ (Smart Quick Actions) -->
-<div class="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 mt-6 mb-8">
-    <button onclick="switchTab('about')" class="glass-panel p-5 rounded-3xl hover-float flex flex-col items-center justify-center text-center group border border-emerald-100/50 relative overflow-hidden">
-        <div class="absolute inset-0 bg-gradient-to-br from-emerald-400 to-teal-500 opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
-        <div class="w-14 h-14 bg-emerald-100 rounded-full flex items-center justify-center text-3xl mb-3 group-hover:scale-110 transition-transform duration-300 shadow-inner">🏥</div>
-        <h3 class="font-bold text-emerald-800 text-sm sm:text-base">ข้อมูลแผนก</h3>
-    </button>
-    
-    <button onclick="switchTab('doctors')" class="glass-panel p-5 rounded-3xl hover-float flex flex-col items-center justify-center text-center group border border-emerald-100/50 relative overflow-hidden">
-        <div class="absolute inset-0 bg-gradient-to-br from-teal-400 to-cyan-500 opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
-        <div class="w-14 h-14 bg-teal-100 rounded-full flex items-center justify-center text-3xl mb-3 group-hover:scale-110 transition-transform duration-300 shadow-inner">👨‍⚕️</div>
-        <h3 class="font-bold text-teal-800 text-sm sm:text-base">ค้นหาแพทย์</h3>
-    </button>
-    
-    <button onclick="switchTab('knowledge')" class="glass-panel p-5 rounded-3xl hover-float flex flex-col items-center justify-center text-center group border border-emerald-100/50 relative overflow-hidden">
-        <div class="absolute inset-0 bg-gradient-to-br from-lime-400 to-emerald-500 opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
-        <div class="w-14 h-14 bg-lime-100 rounded-full flex items-center justify-center text-3xl mb-3 group-hover:scale-110 transition-transform duration-300 shadow-inner">💡</div>
-        <h3 class="font-bold text-lime-800 text-sm sm:text-base">ความรู้สุขภาพ</h3>
-    </button>
-    
-    <button onclick="switchTab('faq')" class="glass-panel p-5 rounded-3xl hover-float flex flex-col items-center justify-center text-center group border border-emerald-100/50 relative overflow-hidden">
-        <div class="absolute inset-0 bg-gradient-to-br from-cyan-400 to-blue-500 opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
-        <div class="w-14 h-14 bg-cyan-100 rounded-full flex items-center justify-center text-3xl mb-3 group-hover:scale-110 transition-transform duration-300 shadow-inner">💬</div>
-        <h3 class="font-bold text-cyan-800 text-sm sm:text-base">ถาม-ตอบ</h3>
-    </button>
-</div>
+                <!-- 2. วิดเจ็ตเกร็ดความรู้สุขภาพ (Swipeable Widget) -->
+                <div class="glass-panel p-1 rounded-3xl hover-float shadow-sm mb-8 relative group/widget">
+                    <!-- ปุ่มจัดการสำหรับแอดมิน -->
+                    <button onclick="openHealthTipModal()" class="admin-only hidden absolute top-3 right-3 z-20 bg-white/90 text-emerald-600 border border-emerald-200 text-xs font-bold px-3 py-1.5 rounded-xl shadow-lg hover:scale-105 transition backdrop-blur-sm">+ เพิ่มเกร็ดความรู้</button>
+                    
+                    <div class="bg-gradient-to-br from-emerald-50 to-teal-50 py-6 pl-6 rounded-[1.4rem] relative overflow-hidden border border-emerald-100">
+                        <div class="flex items-center gap-2 mb-4 pr-6">
+                            <span class="w-8 h-8 bg-emerald-100 rounded-full flex items-center justify-center text-emerald-600 animate-[bounce_3s_infinite]">💡</span>
+                            <p class="text-emerald-700 font-extrabold text-sm tracking-wide">เกร็ดความรู้สุขภาพ <span class="text-xs text-slate-400 font-normal ml-1">(ปัดซ้าย-ขวาเพื่อดูเพิ่มเติม)</span></p>
+                        </div>
+                        <!-- คอนเทนเนอร์สำหรับให้ใช้นิ้วปัดเลื่อนได้ (Swipeable) -->
+                        <div id="healthTipsContainer" class="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 pr-6 no-scrollbar">
+                            <div class="text-slate-400 text-sm italic p-4">กำลังโหลดข้อมูล...</div>
+                        </div>
+                    </div>
+                </div>
 
-<!-- 2. วิดเจ็ตเกร็ดความรู้สุขภาพประจำวัน (Daily Health Tip Widget) -->
-<div class="glass-panel p-1 rounded-3xl hover-float shadow-sm mb-8">
-    <div class="bg-gradient-to-br from-emerald-50 to-teal-50 p-6 sm:p-8 rounded-[1.4rem] relative overflow-hidden border border-emerald-100">
-        
-        <!-- เอฟเฟกต์แสงตกแต่งพื้นหลัง -->
-        <div class="absolute -right-10 -top-10 w-48 h-48 bg-emerald-300 rounded-full mix-blend-multiply filter blur-[50px] opacity-40 animate-pulse pointer-events-none"></div>
-        <div class="absolute -left-10 -bottom-10 w-32 h-32 bg-teal-300 rounded-full mix-blend-multiply filter blur-[40px] opacity-30 animate-pulse pointer-events-none" style="animation-delay: 1s;"></div>
-        
-        <div class="flex flex-col sm:flex-row items-center sm:items-start gap-6 relative z-10">
-            <!-- ไอคอนเด้งได้ -->
-            <div class="w-16 h-16 sm:w-20 sm:h-20 bg-white rounded-2xl flex items-center justify-center text-4xl shadow-md shrink-0 animate-[bounce_3s_infinite] border border-emerald-100">
-                💧
-            </div>
-            
-            <div class="text-center sm:text-left">
-                <p class="text-emerald-500 font-bold text-xs tracking-widest uppercase mb-1">Health Tip of the Day</p>
-                <h2 class="text-xl sm:text-2xl font-extrabold text-slate-800 mb-2">รู้หรือไม่? การดื่มน้ำสำคัญมาก</h2>
-                <p class="text-slate-600 text-sm sm:text-base leading-relaxed">
-                    การดื่มน้ำอย่างน้อยวันละ 8-10 แก้ว ช่วยเจือจางปัสสาวะ ป้องกันการตกตะกอนของนิ่วในระบบทางเดินปัสสาวะ และช่วยชะล้างแบคทีเรียที่อาจทำให้เกิดการอักเสบได้
-                </p>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- ================= END ส่วนตกแต่งหน้าหลัก ================= -->
                 <!-- กล่องอัปเดตข่าวสาร -->
                 <div class="glass-panel p-1 rounded-3xl overflow-hidden hover-float shadow-sm">
                     <div class="bg-white/70 p-6 sm:p-8 rounded-[1.4rem]">
@@ -395,7 +389,6 @@
 
                         <!-- ฝั่งซ้าย: แผนภาพ SVG (Interactive) -->
                         <div class="w-full md:w-1/2 flex justify-center relative z-10">
-                            <!-- SVG ทางเดินปัสสาวะจำลอง -->
                             <svg viewBox="0 0 200 300" class="w-48 sm:w-64 h-auto drop-shadow-2xl">
                                 <!-- โครงร่างคน (Torso) -->
                                 <path d="M 40 20 Q 100 0 160 20 L 180 150 Q 100 250 20 150 Z" fill="#334155" opacity="0.3"/>
@@ -463,7 +456,6 @@
             <!-- ส่วนท้าย -->
             <footer class="mt-12 glass-panel p-6 sm:p-8 rounded-3xl text-center shadow-sm">
                 <div class="flex flex-col md:flex-row justify-between items-center md:items-end gap-6">
-                    <!-- โครงสร้างจัดเรียงตามแนวตั้งและปุ่มชิดขวา -->
                     <div class="flex flex-col items-center md:items-start w-full md:w-auto text-center md:text-left flex-1">
                         <div class="font-extrabold text-slate-800 text-xl tracking-wider mb-2 flex items-center justify-center md:justify-start gap-2">
                             <img id="footerLogoImg" src="https://cdn-icons-png.flaticon.com/512/809/809957.png" alt="Footer Logo" class="w-8 h-8 sm:w-10 sm:h-10 rounded-lg object-cover bg-white p-0.5 shadow-sm">
@@ -682,7 +674,7 @@
                     <input type="text" id="a-title" placeholder="เช่น การดูแลสุขภาพทางเดินปัสสาวะเบื้องต้น" class="w-full px-4 py-2.5 border border-slate-200 bg-slate-50 rounded-xl outline-none focus:border-emerald-500 focus:bg-white transition font-medium">
                 </div>
                 
-                <!-- จุดที่แก้ไข: เพิ่มปุ่มแทรกรูปลงในเนื้อหา -->
+                <!-- เพิ่มปุ่มแทรกรูปลงในเนื้อหา -->
                 <div>
                     <div class="flex justify-between items-center mb-1">
                         <label class="block text-sm font-bold text-slate-600">เนื้อหาบทความ</label>
@@ -728,6 +720,44 @@
                 <div class="flex justify-end gap-3 mt-8">
                     <button onclick="closeFaqModal()" class="px-6 py-2.5 bg-slate-100 text-slate-600 font-bold rounded-xl hover:bg-slate-200 transition">ยกเลิก</button>
                     <button onclick="saveFaqData()" class="px-6 py-2.5 bg-emerald-500 text-white font-bold rounded-xl shadow-md hover:bg-emerald-600 transition hover:-translate-y-0.5">บันทึกข้อมูล</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- หน้าต่างเพิ่มเกร็ดความรู้สุขภาพ (Swipeable Tips) -->
+    <div id="healthTipModal" class="fixed inset-0 z-[110] hidden flex items-center justify-center px-4">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeHealthTipModal()"></div>
+        <div class="bg-white p-6 rounded-3xl shadow-2xl relative z-10 w-full max-w-sm fade-in">
+            <h3 class="text-xl font-bold text-slate-800 mb-4 border-b pb-2 flex items-center gap-2">
+                <span class="text-2xl">💡</span> เพิ่มเกร็ดความรู้
+            </h3>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-bold text-slate-600 mb-2">เลือกไอคอน</label>
+                    <div class="flex flex-wrap gap-2">
+                        <!-- ปุ่มตัวเลือกไอคอนต่างๆ -->
+                        <button type="button" onclick="selectHealthTipIcon(this, '💧')" class="ht-icon-btn w-10 h-10 rounded-xl bg-emerald-100 border-2 border-emerald-500 text-xl flex items-center justify-center transition shadow-sm">💧</button>
+                        <button type="button" onclick="selectHealthTipIcon(this, '🍎')" class="ht-icon-btn w-10 h-10 rounded-xl bg-slate-50 border-2 border-transparent hover:bg-emerald-50 text-xl flex items-center justify-center transition shadow-sm">🍎</button>
+                        <button type="button" onclick="selectHealthTipIcon(this, '🏃‍♂️')" class="ht-icon-btn w-10 h-10 rounded-xl bg-slate-50 border-2 border-transparent hover:bg-emerald-50 text-xl flex items-center justify-center transition shadow-sm">🏃‍♂️</button>
+                        <button type="button" onclick="selectHealthTipIcon(this, '💊')" class="ht-icon-btn w-10 h-10 rounded-xl bg-slate-50 border-2 border-transparent hover:bg-emerald-50 text-xl flex items-center justify-center transition shadow-sm">💊</button>
+                        <button type="button" onclick="selectHealthTipIcon(this, '🧠')" class="ht-icon-btn w-10 h-10 rounded-xl bg-slate-50 border-2 border-transparent hover:bg-emerald-50 text-xl flex items-center justify-center transition shadow-sm">🧠</button>
+                        <button type="button" onclick="selectHealthTipIcon(this, '🥗')" class="ht-icon-btn w-10 h-10 rounded-xl bg-slate-50 border-2 border-transparent hover:bg-emerald-50 text-xl flex items-center justify-center transition shadow-sm">🥗</button>
+                    </div>
+                    <!-- ช่องรับค่าแบบซ่อน สำหรับเก็บไอคอนที่ถูกเลือก -->
+                    <input type="hidden" id="ht-selected-icon" value="💧">
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-slate-600 mb-1">หัวข้อ</label>
+                    <input type="text" id="ht-title" placeholder="เช่น ดื่มน้ำให้เพียงพอ" class="w-full px-4 py-2.5 border border-slate-200 bg-slate-50 rounded-xl outline-none focus:border-emerald-500 focus:bg-white transition font-medium">
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-slate-600 mb-1">รายละเอียดย่อ</label>
+                    <textarea id="ht-desc" rows="3" placeholder="พิมพ์ข้อความที่นี่..." class="w-full px-4 py-2.5 border border-slate-200 bg-slate-50 rounded-xl outline-none focus:border-emerald-500 focus:bg-white transition font-medium leading-relaxed"></textarea>
+                </div>
+                <div class="flex justify-end gap-2 mt-6">
+                    <button onclick="closeHealthTipModal()" class="px-5 py-2.5 bg-slate-100 text-slate-600 font-bold rounded-xl hover:bg-slate-200 transition">ยกเลิก</button>
+                    <button onclick="saveHealthTip()" class="px-5 py-2.5 bg-emerald-500 text-white font-bold rounded-xl shadow-md hover:bg-emerald-600 transition">บันทึกข้อมูล</button>
                 </div>
             </div>
         </div>
@@ -779,6 +809,12 @@
             </div>
         </div>
     </div>
+
+    <!-- ปุ่มกลับหน้าหลัก (แสดงเมื่ออยู่หน้าอื่น) -->
+    <button id="floatingBackHomeBtn" onclick="switchTab('home')" class="hidden fixed bottom-6 right-6 z-50 bg-gradient-to-r from-emerald-500 to-teal-500 text-white p-4 rounded-full shadow-2xl hover:scale-110 transition-transform flex items-center gap-2 font-bold border-2 border-white cursor-pointer">
+        <span class="text-xl">🏠</span>
+        <span class="hidden sm:inline">กลับหน้าหลัก</span>
+    </button>
 
     <!-- JavaScript หลัก -->
     <script>
@@ -953,6 +989,7 @@
         let doctors = []; 
         let articles = []; 
         let faqs = []; 
+        let healthTips = []; // เพิ่มตัวแปรสำหรับเกร็ดความรู้
         let currentDate = new Date();
         let calSchedules = {}; 
         let calNotes = {}; 
@@ -975,6 +1012,7 @@
                 if (data.doctors) doctors = data.doctors; 
                 if (data.articles) articles = data.articles; 
                 if (data.faqs) faqs = data.faqs; 
+                if (data.healthTips) healthTips = data.healthTips; // ดึงข้อมูลเกร็ดความรู้
                 if (data.aboutInfo) aboutInfo = data.aboutInfo; 
                 if (data.calSchedules) calSchedules = data.calSchedules;
                 if (data.calNotes) calNotes = data.calNotes; 
@@ -1002,6 +1040,7 @@
                 doctors: doctors || [], 
                 articles: articles || [], 
                 faqs: faqs || [], 
+                healthTips: healthTips || [], // บันทึกเกร็ดความรู้ลงฐานข้อมูล
                 aboutInfo: aboutInfo || {}, 
                 calSchedules: calSchedules || {},
                 calNotes: calNotes || {}, 
@@ -1028,10 +1067,26 @@
             
             document.getElementById('btn-' + tabName).className = "w-full text-left px-4 py-3 rounded-xl font-bold transition-all flex items-center gap-3 bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-md";
             
-            if (window.innerWidth < 1024) toggleSidebar();
+            // ปิด Sidebar บนมือถือเมื่อกดเปลี่ยนหน้า
+            if (window.innerWidth < 1024) {
+                const sidebar = document.getElementById('sidebar');
+                const overlay = document.getElementById('sidebarOverlay');
+                sidebar.classList.remove('sidebar-open');
+                sidebar.classList.add('sidebar-closed');
+                overlay.classList.add('hidden');
+            }
+
+            // ซ่อน/แสดง ปุ่มกลับหน้าหลัก
+            const backHomeBtn = document.getElementById('floatingBackHomeBtn');
+            if (backHomeBtn) {
+                if (tabName === 'home') {
+                    backHomeBtn.classList.add('hidden');
+                } else {
+                    backHomeBtn.classList.remove('hidden');
+                }
+            }
             
             window.scrollTo({ top: 0, behavior: 'smooth' }); 
-
             const scrollContainer = document.querySelector('main').parentElement;
             if (scrollContainer) {
                 scrollContainer.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1094,6 +1149,31 @@
             });
         }
 
+        // ฟังก์ชัน Render เกร็ดความรู้
+        function renderHealthTips() {
+            const container = document.getElementById('healthTipsContainer');
+            if(!container) return;
+            container.innerHTML = '';
+            
+            if(!healthTips || healthTips.length === 0) {
+                container.innerHTML = '<div class="text-slate-400 text-sm italic w-full text-center py-6">ยังไม่มีเกร็ดความรู้ แอดมินสามารถกดเพิ่มได้เลยครับ</div>';
+                return;
+            }
+
+            healthTips.forEach(tip => {
+                container.innerHTML += `
+                    <div class="snap-center shrink-0 w-[85%] sm:w-[280px] bg-white p-5 rounded-2xl shadow-sm border border-emerald-100 relative group">
+                        ${isAdmin ? `
+                            <button onclick="confirmDeleteHealthTip(${tip.id})" class="absolute top-2 right-2 w-6 h-6 bg-rose-50 text-rose-500 hover:text-white hover:bg-rose-500 rounded-full text-xs font-bold transition shadow-sm opacity-100 sm:opacity-0 group-hover:opacity-100 flex items-center justify-center">✕</button>
+                        ` : ''}
+                        <div class="text-3xl mb-3 bg-emerald-50 w-12 h-12 flex items-center justify-center rounded-xl">${tip.icon || '💧'}</div>
+                        <h3 class="font-bold text-slate-800 text-base mb-2 leading-tight">${tip.title}</h3>
+                        <p class="text-slate-500 text-sm leading-relaxed whitespace-pre-line">${tip.desc}</p>
+                    </div>
+                `;
+            });
+        }
+
         function renderAboutInfo() {
             document.getElementById('about-services').innerHTML = aboutInfo.services || '<span class="text-slate-400 italic">ยังไม่มีข้อมูล</span>';
             document.getElementById('about-hours').innerHTML = aboutInfo.hours || '<span class="text-slate-400 italic">ยังไม่มีข้อมูล</span>';
@@ -1129,7 +1209,7 @@
                         ${reorderBtns}
                         ${isAdmin ? `
                             <div class="absolute top-3 right-3 flex flex-col gap-2 z-10 opacity-100 sm:opacity-0 group-hover:opacity-100 transition">
-                                <button onclick="openPersonnelModal(${p.id})" class="w-8 h-8 flex items-center justify-center bg-white text-emerald-500 hover:bg-emerald-500 hover:text-white rounded-full shadow-md transition font-bold text-xs" title="แก้ไข">✏️️</button>
+                                <button onclick="openPersonnelModal(${p.id})" class="w-8 h-8 flex items-center justify-center bg-white text-emerald-500 hover:bg-emerald-500 hover:text-white rounded-full shadow-md transition font-bold text-xs" title="แก้ไข">✏</button>
                                 <button onclick="confirmDeletePersonnel(${p.id})" class="w-8 h-8 flex items-center justify-center bg-white text-rose-500 hover:bg-rose-500 hover:text-white rounded-full shadow-md transition font-bold" title="ลบ">✕</button>
                             </div>
                         ` : ''}
@@ -1141,9 +1221,6 @@
             });
         }
 
-        // ==========================================
-        // ระบบทีมแพทย์ (Doctors)
-        // ==========================================
         function renderDoctors() {
             const list = document.getElementById('doctors-list');
             if(!list) return;
@@ -1177,83 +1254,6 @@
             });
         }
 
-        function moveDoctors(direction, index) {
-            if (direction === -1 && index > 0) {
-                const temp = doctors[index];
-                doctors[index] = doctors[index - 1];
-                doctors[index - 1] = temp;
-                saveToCloud();
-            } else if (direction === 1 && index < doctors.length - 1) {
-                const temp = doctors[index];
-                doctors[index] = doctors[index + 1];
-                doctors[index + 1] = temp;
-                saveToCloud();
-            }
-        }
-
-        function openDoctorsModal(id = null) {
-            document.getElementById('doctorsModal').classList.remove('hidden');
-            const title = document.getElementById('d-modal-title');
-            const idInput = document.getElementById('d-id');
-            const prefixInput = document.getElementById('d-prefix');
-            const nameInput = document.getElementById('d-name');
-            const roleInput = document.getElementById('d-role');
-            const fileInput = document.getElementById('d-image');
-            
-            fileInput.value = '';
-            if (id) {
-                title.innerText = "แก้ไขข้อมูลแพทย์";
-                const p = doctors.find(x => x.id === id);
-                if (p) {
-                    idInput.value = p.id; prefixInput.value = p.prefix; nameInput.value = p.name; roleInput.value = p.role;
-                }
-            } else {
-                title.innerText = "เพิ่มแพทย์ใหม่";
-                idInput.value = ''; prefixInput.value = ''; nameInput.value = ''; roleInput.value = '';
-            }
-        }
-
-        function closeDoctorsModal() { document.getElementById('doctorsModal').classList.add('hidden'); }
-
-        function saveDoctorsData() {
-            const prefix = document.getElementById('d-prefix').value.trim();
-            const name = document.getElementById('d-name').value.trim();
-            const role = document.getElementById('d-role').value.trim();
-            const fileInput = document.getElementById('d-image');
-            const editingId = document.getElementById('d-id').value;
-
-            if(!prefix || !name || !role) { appAlert("ข้อมูลไม่ครบ", "กรุณากรอก ยศ/คำนำหน้า, ชื่อ และตำแหน่ง ให้ครบถ้วนครับ", "⚠"); return; }
-
-            let processSave = (imageBase64) => {
-                if (editingId) {
-                    const idx = doctors.findIndex(p => p.id == editingId);
-                    if (idx !== -1) {
-                        doctors[idx].prefix = prefix; doctors[idx].name = name; doctors[idx].role = role;
-                        if(imageBase64 !== null) doctors[idx].image = imageBase64;
-                    }
-                } else {
-                    doctors.push({ id: Date.now(), prefix: prefix, name: name, role: role, image: imageBase64 || '' });
-                }
-                saveToCloud(); closeDoctorsModal();
-            };
-
-            if (fileInput.files && fileInput.files[0]) {
-                const file = fileInput.files[0];
-                if (file.size > 2 * 1024 * 1024) { appAlert("ไฟล์ใหญ่เกินไป", "ขนาดรูปภาพต้องไม่เกิน 2MB ครับ", "❌"); return; }
-                const reader = new FileReader();
-                reader.onload = function(e) { processSave(e.target.result); };
-                reader.readAsDataURL(file);
-            } else {
-                processSave(editingId ? null : ''); 
-            }
-        }
-
-        function confirmDeleteDoctors(id) {
-            appConfirm("ลบข้อมูลทีมแพทย์", "ยืนยันการลบรายชื่อแพทย์ท่านนี้ใช่หรือไม่?", () => {
-                doctors = doctors.filter(p => p.id !== id); saveToCloud(); 
-            });
-        }
-
         function renderArticles() {
             const list = document.getElementById('article-list');
             if(!list) return;
@@ -1274,7 +1274,6 @@
                     ? `<img src="${art.image}" class="w-full h-48 object-cover rounded-t-2xl">` 
                     : `<div class="w-full h-40 bg-emerald-50 flex items-center justify-center rounded-t-2xl"><span class="text-4xl">💡</span></div>`;
                 
-                // ตัดแท็กรูปภาพ HTML ออกเพื่อให้แสดงเฉพาะข้อความตัวอย่าง
                 let plainText = art.content.replace(/<[^>]*>?/gm, '');
                 let shortContent = plainText.length > 100 ? plainText.substring(0, 100) + '...' : plainText;
                 
@@ -1299,11 +1298,9 @@
             });
         }
 
-        // --- เพิ่มฟังก์ชันใหม่สำหรับการอ่านบทความแบบเต็ม ---
         function readFullArticle(id) {
             const art = articles.find(x => x.id === id);
             if(art) {
-                // สร้างกล่องข้อความที่มี Scrollbar ในตัว ให้อ่านง่ายขึ้น
                 const contentHtml = `
                     <div class="max-h-[65vh] overflow-y-auto text-left p-4 sm:p-5 border border-slate-200 rounded-2xl bg-slate-50 mt-3 text-slate-700 text-[15px] leading-relaxed break-words">
                         ${art.content.replace(/\n/g, '<br>')}
@@ -1424,6 +1421,7 @@
             renderSettings();
             initCarousel(); 
             renderAnnouncements(); 
+            renderHealthTips(); // เรนเดอร์เกร็ดความรู้
             renderAboutInfo(); 
             renderPersonnel();
             renderDoctors(); 
@@ -1539,7 +1537,6 @@
             event.target.value = ''; 
         }
 
-        // --- เพิ่มฟังก์ชันจัดการแทรกรูปในเนื้อหาบทความ ---
         function handleArticleContentImage(event) {
             const file = event.target.files[0];
             if (file) {
@@ -1547,11 +1544,9 @@
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     const base64 = e.target.result;
-                    // สร้างโค้ด HTML สำหรับรูปภาพ
                     const imgTag = `\n<img src="${base64}" class="w-full h-auto rounded-xl my-4 shadow-sm border border-slate-100">\n`;
                     const textarea = document.getElementById('a-content');
                     
-                    // แทรกโค้ดรูปลงไปตรงตำแหน่งที่เคอร์เซอร์อยู่
                     const startPos = textarea.selectionStart;
                     const endPos = textarea.selectionEnd;
                     const text = textarea.value;
@@ -1636,6 +1631,57 @@
             });
         }
 
+        // ฟังก์ชันจัดการเกร็ดความรู้
+        // ฟังก์ชันจัดการเกร็ดความรู้ (อัปเดตใหม่)
+        
+        // 1. ฟังก์ชันเมื่อกดเลือกไอคอน
+        function selectHealthTipIcon(btnElement, iconValue) {
+            // รีเซ็ตปุ่มทั้งหมดให้กลับเป็นสีเทา (ไม่ถูกเลือก)
+            document.querySelectorAll('.ht-icon-btn').forEach(el => {
+                el.className = "ht-icon-btn w-10 h-10 rounded-xl bg-slate-50 border-2 border-transparent hover:bg-emerald-50 text-xl flex items-center justify-center transition shadow-sm";
+            });
+            // ไฮไลท์ปุ่มที่ถูกคลิก (เปลี่ยนเป็นสีเขียว)
+            btnElement.className = "ht-icon-btn w-10 h-10 rounded-xl bg-emerald-100 border-2 border-emerald-500 text-xl flex items-center justify-center transition shadow-sm";
+            // นำค่าไอคอนไปใส่ใน input ที่ซ่อนไว้
+            document.getElementById('ht-selected-icon').value = iconValue;
+        }
+
+        // 2. ฟังก์ชันเปิดหน้าต่างเพิ่มข้อมูล
+        function openHealthTipModal() {
+            document.getElementById('healthTipModal').classList.remove('hidden');
+            document.getElementById('ht-title').value = '';
+            document.getElementById('ht-desc').value = '';
+            
+            // ตั้งค่าเริ่มต้นให้กลับไปเลือกไอคอนรูปน้ำ 💧
+            const defaultBtn = document.querySelector('.ht-icon-btn');
+            if(defaultBtn) selectHealthTipIcon(defaultBtn, '💧');
+        }
+        
+        function closeHealthTipModal() { 
+            document.getElementById('healthTipModal').classList.add('hidden'); 
+        }
+        
+        // 3. ฟังก์ชันบันทึกข้อมูล
+        function saveHealthTip() {
+            // ดึงค่าไอคอนจาก input ที่ซ่อนไว้ แทนช่องกรอกข้อความแบบเดิม
+            const icon = document.getElementById('ht-selected-icon').value || '💧';
+            const title = document.getElementById('ht-title').value.trim();
+            const desc = document.getElementById('ht-desc').value.trim();
+            
+            if(!title || !desc) { appAlert("ข้อมูลไม่ครบ", "กรุณากรอกหัวข้อและรายละเอียดครับ", "⚠️"); return; }
+            
+            healthTips.unshift({ id: Date.now(), icon: icon, title: title, desc: desc });
+            saveToCloud(); 
+            closeHealthTipModal();
+        }
+        
+        function confirmDeleteHealthTip(id) {
+            appConfirm("ลบเกร็ดความรู้", "ยืนยันการลบเกร็ดความรู้นี้ใช่หรือไม่?", () => {
+                healthTips = healthTips.filter(t => t.id !== id); 
+                saveToCloud(); 
+            });
+        }
+
         function movePersonnel(direction, index) {
             if (direction === -1 && index > 0) {
                 const temp = personnel[index];
@@ -1706,6 +1752,83 @@
         function confirmDeletePersonnel(id) {
             appConfirm("ลบข้อมูลบุคลากร", "ยืนยันการลบรายชื่อบุคลากรนี้ใช่หรือไม่?", () => {
                 personnel = personnel.filter(p => p.id !== id); saveToCloud(); 
+            });
+        }
+
+        function moveDoctors(direction, index) {
+            if (direction === -1 && index > 0) {
+                const temp = doctors[index];
+                doctors[index] = doctors[index - 1];
+                doctors[index - 1] = temp;
+                saveToCloud();
+            } else if (direction === 1 && index < doctors.length - 1) {
+                const temp = doctors[index];
+                doctors[index] = doctors[index + 1];
+                doctors[index + 1] = temp;
+                saveToCloud();
+            }
+        }
+
+        function openDoctorsModal(id = null) {
+            document.getElementById('doctorsModal').classList.remove('hidden');
+            const title = document.getElementById('d-modal-title');
+            const idInput = document.getElementById('d-id');
+            const prefixInput = document.getElementById('d-prefix');
+            const nameInput = document.getElementById('d-name');
+            const roleInput = document.getElementById('d-role');
+            const fileInput = document.getElementById('d-image');
+            
+            fileInput.value = '';
+            if (id) {
+                title.innerText = "แก้ไขข้อมูลแพทย์";
+                const p = doctors.find(x => x.id === id);
+                if (p) {
+                    idInput.value = p.id; prefixInput.value = p.prefix; nameInput.value = p.name; roleInput.value = p.role;
+                }
+            } else {
+                title.innerText = "เพิ่มแพทย์ใหม่";
+                idInput.value = ''; prefixInput.value = ''; nameInput.value = ''; roleInput.value = '';
+            }
+        }
+
+        function closeDoctorsModal() { document.getElementById('doctorsModal').classList.add('hidden'); }
+
+        function saveDoctorsData() {
+            const prefix = document.getElementById('d-prefix').value.trim();
+            const name = document.getElementById('d-name').value.trim();
+            const role = document.getElementById('d-role').value.trim();
+            const fileInput = document.getElementById('d-image');
+            const editingId = document.getElementById('d-id').value;
+
+            if(!prefix || !name || !role) { appAlert("ข้อมูลไม่ครบ", "กรุณากรอก ยศ/คำนำหน้า, ชื่อ และตำแหน่ง ให้ครบถ้วนครับ", "⚠"); return; }
+
+            let processSave = (imageBase64) => {
+                if (editingId) {
+                    const idx = doctors.findIndex(p => p.id == editingId);
+                    if (idx !== -1) {
+                        doctors[idx].prefix = prefix; doctors[idx].name = name; doctors[idx].role = role;
+                        if(imageBase64 !== null) doctors[idx].image = imageBase64;
+                    }
+                } else {
+                    doctors.push({ id: Date.now(), prefix: prefix, name: name, role: role, image: imageBase64 || '' });
+                }
+                saveToCloud(); closeDoctorsModal();
+            };
+
+            if (fileInput.files && fileInput.files[0]) {
+                const file = fileInput.files[0];
+                if (file.size > 2 * 1024 * 1024) { appAlert("ไฟล์ใหญ่เกินไป", "ขนาดรูปภาพต้องไม่เกิน 2MB ครับ", "❌"); return; }
+                const reader = new FileReader();
+                reader.onload = function(e) { processSave(e.target.result); };
+                reader.readAsDataURL(file);
+            } else {
+                processSave(editingId ? null : ''); 
+            }
+        }
+
+        function confirmDeleteDoctors(id) {
+            appConfirm("ลบข้อมูลทีมแพทย์", "ยืนยันการลบรายชื่อแพทย์ท่านนี้ใช่หรือไม่?", () => {
+                doctors = doctors.filter(p => p.id !== id); saveToCloud(); 
             });
         }
 
@@ -1876,7 +1999,7 @@
         const anatomyData = {
             kidney: {
                 title: "ไต (Kidneys)",
-                desc: "<b>หน้าที่:</b> กรองของเสียและน้ำส่วนเกินออกจากเลือดเพื่อสร้างเป็นปัสสาวะ รวมทั้งควบคุมสมดุลแร่ธาตุและความดันโลหิต<br><br><span class='text-rose-400 font-bold'>⚠️️ โรคที่พบบ่อย:</span> นิ่วในไต, กรวยไตอักเสบ, ภาวะไตวายเฉียบพลันและเรื้อรัง"
+                desc: "<b>หน้าที่:</b> กรองของเสียและน้ำส่วนเกินออกจากเลือดเพื่อสร้างเป็นปัสสาวะ รวมทั้งควบคุมสมดุลแร่ธาตุและความดันโลหิต<br><br><span class='text-rose-400 font-bold'>⚠ โรคที่พบบ่อย:</span> นิ่วในไต, กรวยไตอักเสบ, ภาวะไตวายเฉียบพลันและเรื้อรัง"
             },
             bladder: {
                 title: "กระเพาะปัสสาวะ (Bladder)",
@@ -1897,7 +2020,6 @@
                 titleEl.classList.remove('fade-in');
                 descEl.classList.remove('fade-in');
                 
-                // บังคับให้เบราว์เซอร์รีเซ็ตแอนิเมชัน
                 void titleEl.offsetWidth; 
                 
                 titleEl.innerHTML = data.title;
