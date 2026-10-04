@@ -189,7 +189,61 @@
                         </div>
                     </div>
                 </div>
+<!-- ================= START ส่วนตกแต่งหน้าหลัก (ว้าวๆ) ================= -->
 
+<!-- 1. เมนูทางลัดอัจฉริยะ (Smart Quick Actions) -->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 mt-6 mb-8">
+    <button onclick="switchTab('about')" class="glass-panel p-5 rounded-3xl hover-float flex flex-col items-center justify-center text-center group border border-emerald-100/50 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-br from-emerald-400 to-teal-500 opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+        <div class="w-14 h-14 bg-emerald-100 rounded-full flex items-center justify-center text-3xl mb-3 group-hover:scale-110 transition-transform duration-300 shadow-inner">🏥</div>
+        <h3 class="font-bold text-emerald-800 text-sm sm:text-base">ข้อมูลแผนก</h3>
+    </button>
+    
+    <button onclick="switchTab('doctors')" class="glass-panel p-5 rounded-3xl hover-float flex flex-col items-center justify-center text-center group border border-emerald-100/50 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-br from-teal-400 to-cyan-500 opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+        <div class="w-14 h-14 bg-teal-100 rounded-full flex items-center justify-center text-3xl mb-3 group-hover:scale-110 transition-transform duration-300 shadow-inner">👨‍⚕️</div>
+        <h3 class="font-bold text-teal-800 text-sm sm:text-base">ค้นหาแพทย์</h3>
+    </button>
+    
+    <button onclick="switchTab('knowledge')" class="glass-panel p-5 rounded-3xl hover-float flex flex-col items-center justify-center text-center group border border-emerald-100/50 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-br from-lime-400 to-emerald-500 opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+        <div class="w-14 h-14 bg-lime-100 rounded-full flex items-center justify-center text-3xl mb-3 group-hover:scale-110 transition-transform duration-300 shadow-inner">💡</div>
+        <h3 class="font-bold text-lime-800 text-sm sm:text-base">ความรู้สุขภาพ</h3>
+    </button>
+    
+    <button onclick="switchTab('faq')" class="glass-panel p-5 rounded-3xl hover-float flex flex-col items-center justify-center text-center group border border-emerald-100/50 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-br from-cyan-400 to-blue-500 opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+        <div class="w-14 h-14 bg-cyan-100 rounded-full flex items-center justify-center text-3xl mb-3 group-hover:scale-110 transition-transform duration-300 shadow-inner">💬</div>
+        <h3 class="font-bold text-cyan-800 text-sm sm:text-base">ถาม-ตอบ</h3>
+    </button>
+</div>
+
+<!-- 2. วิดเจ็ตเกร็ดความรู้สุขภาพประจำวัน (Daily Health Tip Widget) -->
+<div class="glass-panel p-1 rounded-3xl hover-float shadow-sm mb-8">
+    <div class="bg-gradient-to-br from-emerald-50 to-teal-50 p-6 sm:p-8 rounded-[1.4rem] relative overflow-hidden border border-emerald-100">
+        
+        <!-- เอฟเฟกต์แสงตกแต่งพื้นหลัง -->
+        <div class="absolute -right-10 -top-10 w-48 h-48 bg-emerald-300 rounded-full mix-blend-multiply filter blur-[50px] opacity-40 animate-pulse pointer-events-none"></div>
+        <div class="absolute -left-10 -bottom-10 w-32 h-32 bg-teal-300 rounded-full mix-blend-multiply filter blur-[40px] opacity-30 animate-pulse pointer-events-none" style="animation-delay: 1s;"></div>
+        
+        <div class="flex flex-col sm:flex-row items-center sm:items-start gap-6 relative z-10">
+            <!-- ไอคอนเด้งได้ -->
+            <div class="w-16 h-16 sm:w-20 sm:h-20 bg-white rounded-2xl flex items-center justify-center text-4xl shadow-md shrink-0 animate-[bounce_3s_infinite] border border-emerald-100">
+                💧
+            </div>
+            
+            <div class="text-center sm:text-left">
+                <p class="text-emerald-500 font-bold text-xs tracking-widest uppercase mb-1">Health Tip of the Day</p>
+                <h2 class="text-xl sm:text-2xl font-extrabold text-slate-800 mb-2">รู้หรือไม่? การดื่มน้ำสำคัญมาก</h2>
+                <p class="text-slate-600 text-sm sm:text-base leading-relaxed">
+                    การดื่มน้ำอย่างน้อยวันละ 8-10 แก้ว ช่วยเจือจางปัสสาวะ ป้องกันการตกตะกอนของนิ่วในระบบทางเดินปัสสาวะ และช่วยชะล้างแบคทีเรียที่อาจทำให้เกิดการอักเสบได้
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ================= END ส่วนตกแต่งหน้าหลัก ================= -->
                 <!-- กล่องอัปเดตข่าวสาร -->
                 <div class="glass-panel p-1 rounded-3xl overflow-hidden hover-float shadow-sm">
                     <div class="bg-white/70 p-6 sm:p-8 rounded-[1.4rem]">
@@ -370,7 +424,7 @@
                                 <span class="animate-pulse">👆</span> ลองคลิกที่อวัยวะ
                             </div>
                             <h3 id="anatomy-title" class="text-2xl sm:text-3xl font-extrabold mb-4 text-white">ระบบทางเดินปัสสาวะ</h3>
-                            <div id="anatomy-desc" class="text-slate-300 text-sm sm:text-base leading-relaxed h-32 overflow-y-auto pr-2">
+                            <div id="anatomy-desc" class="text-slate-300 text-sm sm:text-base leading-relaxed h-48 sm:h-40 overflow-y-auto pr-2">
                                 กรุณาคลิกที่อวัยวะบนแผนภาพด้านซ้าย (เช่น ไต, กระเพาะปัสสาวะ, ต่อมลูกหมาก) เพื่อดูรายละเอียด หน้าที่การทำงาน และโรคที่พบบ่อย
                             </div>
                         </div>
