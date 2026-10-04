@@ -1004,34 +1004,41 @@
 
         const monthNamesThai = ["มกราคม","กุมภาพันธ์","มีนาคม","เมษายน","พฤษภาคม","มิถุนายน","กรกฎาคม","สิงหาคม","กันยายน","ตุลาคม","พฤศจิกายน","ธันวาคม"];
 
-        db.ref('clinicData_v4').on('value', (snapshot) => {
-            const data = snapshot.val();
-            if (data) {
-                if (data.bannerImages) bannerImages = data.bannerImages;
-                if (data.announcements) announcements = data.announcements; 
-                if (data.personnel) personnel = data.personnel;
-                if (data.doctors) doctors = data.doctors; 
-                if (data.articles) articles = data.articles; 
-                if (data.faqs) faqs = data.faqs; 
-                if (data.healthTips) healthTips = data.healthTips; // ดึงข้อมูลเกร็ดความรู้
-                if (data.aboutInfo) aboutInfo = data.aboutInfo; 
-                if (data.calSchedules) calSchedules = data.calSchedules;
-                if (data.calNotes) calNotes = data.calNotes; 
-                if (data.remarksList) remarksList = data.remarksList;
-                if (data.adminPasswordsList) adminPasswordsList = data.adminPasswordsList;
-                if (data.settings) {
-                    clinicLogo = data.settings.logo || clinicLogo;
-                    clinicAddress = data.settings.address || clinicAddress;
-                    clinicSlogan = data.settings.slogan || clinicSlogan;
-                }
+        // เปลี่ยนจากการเปิด Real-time listener มาเป็นการดึงข้อมูลแค่ครั้งเดียวตอนโหลดหน้า
+db.ref('clinicData_v4').get().then((snapshot) => {
+    if (snapshot.exists()) {
+        const data = snapshot.val();
+        if (data) {
+            if (data.bannerImages) bannerImages = data.bannerImages;
+            if (data.announcements) announcements = data.announcements; 
+            if (data.personnel) personnel = data.personnel;
+            if (data.doctors) doctors = data.doctors; 
+            if (data.articles) articles = data.articles; 
+            if (data.faqs) faqs = data.faqs; 
+            if (data.healthTips) healthTips = data.healthTips; 
+            if (data.aboutInfo) aboutInfo = data.aboutInfo; 
+            if (data.calSchedules) calSchedules = data.calSchedules;
+            if (data.calNotes) calNotes = data.calNotes; 
+            if (data.remarksList) remarksList = data.remarksList;
+            if (data.adminPasswordsList) adminPasswordsList = data.adminPasswordsList;
+            if (data.settings) {
+                clinicLogo = data.settings.logo || clinicLogo;
+                clinicAddress = data.settings.address || clinicAddress;
+                clinicSlogan = data.settings.slogan || clinicSlogan;
             }
-            
-            const loadingMsg = document.getElementById('loading-msg');
-            if (loadingMsg) loadingMsg.style.display = 'none';
-            
-            applyAdminState();
-            renderAll();
-        });
+        }
+        
+        const loadingMsg = document.getElementById('loading-msg');
+        if (loadingMsg) loadingMsg.style.display = 'none';
+        
+        applyAdminState();
+        renderAll();
+    } else {
+        console.log("No data available");
+    }
+}).catch((error) => {
+    console.error(error);
+});
 
         function saveToCloud() {
             db.ref('clinicData_v4').set({
