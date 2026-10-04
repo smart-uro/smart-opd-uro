@@ -121,6 +121,9 @@
             <button onclick="switchTab('personnel')" id="btn-personnel" class="w-full text-left px-4 py-3 rounded-xl font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-700 transition-all flex items-center gap-3">
                 <span class="text-xl">👩‍⚕️</span> ทำเนียบบุคลากร
             </button>
+            <button onclick="switchTab('doctors')" id="btn-doctors" class="w-full text-left px-4 py-3 rounded-xl font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-700 transition-all flex items-center gap-3">
+                <span class="text-xl">🩺</span> ทีมแพทย์
+            </button>
             <button onclick="switchTab('knowledge')" id="btn-knowledge" class="w-full text-left px-4 py-3 rounded-xl font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-700 transition-all flex items-center gap-3">
                 <span class="text-xl">💡</span> ความรู้สุขภาพ
             </button>
@@ -311,8 +314,70 @@
                 </div>
             </section>
 
+            <!-- 3.5 ทีมแพทย์ (Doctors) -->
+            <section id="tab-doctors" class="hidden space-y-8 fade-in">
+                <div class="glass-panel p-1 rounded-3xl hover-float shadow-sm">
+                    <div class="bg-white/70 p-6 sm:p-8 rounded-[1.4rem]">
+                        <div class="flex justify-between items-center border-b-2 border-emerald-100/50 pb-5 mb-8">
+                            <h2 class="text-xl sm:text-2xl font-extrabold text-slate-800 flex items-center gap-3">
+                                <span class="text-2xl sm:text-3xl filter drop-shadow-md">🩺</span> ทำเนียบทีมแพทย์
+                            </h2>
+                            <button onclick="openDoctorsModal()" class="admin-only hidden bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-xs sm:text-sm font-bold px-4 py-2 rounded-xl shadow-lg transition-transform hover:scale-105">+ เพิ่มแพทย์</button>
+                        </div>
+                        <div id="doctors-list" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6"></div>
+                    </div>
+                </div>
+            </section>
+
             <!-- 4. ความรู้สุขภาพ (Health Knowledge) -->
             <section id="tab-knowledge" class="hidden space-y-8 fade-in">
+                
+                <!-- ระบบ Interactive Anatomy -->
+                <div class="glass-panel p-1 rounded-3xl hover-float shadow-sm bg-gradient-to-br from-slate-800 to-slate-900 mb-8">
+                    <div class="p-6 sm:p-8 rounded-[1.4rem] flex flex-col md:flex-row gap-8 items-center relative overflow-hidden">
+                        
+                        <!-- พื้นหลังตกแต่ง -->
+                        <div class="absolute -right-20 -top-20 w-64 h-64 bg-emerald-500 rounded-full mix-blend-screen filter blur-[80px] opacity-20"></div>
+
+                        <!-- ฝั่งซ้าย: แผนภาพ SVG (Interactive) -->
+                        <div class="w-full md:w-1/2 flex justify-center relative z-10">
+                            <!-- SVG ทางเดินปัสสาวะจำลอง -->
+                            <svg viewBox="0 0 200 300" class="w-48 sm:w-64 h-auto drop-shadow-2xl">
+                                <!-- โครงร่างคน (Torso) -->
+                                <path d="M 40 20 Q 100 0 160 20 L 180 150 Q 100 250 20 150 Z" fill="#334155" opacity="0.3"/>
+                                
+                                <!-- ไตซ้าย (Left Kidney) -->
+                                <path onclick="showAnatomyInfo('kidney')" class="cursor-pointer transition-all duration-300 hover:fill-emerald-400 hover:scale-110 origin-center" d="M 60 80 C 40 80, 40 120, 60 120 C 70 120, 80 100, 60 80 Z" fill="#059669"/>
+                                
+                                <!-- ไตขวา (Right Kidney) -->
+                                <path onclick="showAnatomyInfo('kidney')" class="cursor-pointer transition-all duration-300 hover:fill-emerald-400 hover:scale-110 origin-center" d="M 140 80 C 160 80, 160 120, 140 120 C 130 120, 120 100, 140 80 Z" fill="#059669"/>
+                                
+                                <!-- ท่อไต (Ureters) -->
+                                <path d="M 65 115 Q 80 180 95 210" fill="none" stroke="#10b981" stroke-width="4" class="opacity-70"/>
+                                <path d="M 135 115 Q 120 180 105 210" fill="none" stroke="#10b981" stroke-width="4" class="opacity-70"/>
+                                
+                                <!-- กระเพาะปัสสาวะ (Bladder) -->
+                                <circle onclick="showAnatomyInfo('bladder')" cx="100" cy="220" r="25" class="cursor-pointer transition-all duration-300 hover:fill-teal-400 hover:scale-110 origin-center" fill="#0f766e"/>
+                                
+                                <!-- ต่อมลูกหมาก (Prostate) -->
+                                <ellipse onclick="showAnatomyInfo('prostate')" cx="100" cy="255" rx="12" ry="8" class="cursor-pointer transition-all duration-300 hover:fill-amber-400 hover:scale-110 origin-center" fill="#b45309"/>
+                            </svg>
+                        </div>
+
+                        <!-- ฝั่งขวา: กล่องแสดงข้อมูล -->
+                        <div class="w-full md:w-1/2 text-white relative z-10">
+                            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-bold mb-4 border border-emerald-500/30">
+                                <span class="animate-pulse">👆</span> ลองคลิกที่อวัยวะ
+                            </div>
+                            <h3 id="anatomy-title" class="text-2xl sm:text-3xl font-extrabold mb-4 text-white">ระบบทางเดินปัสสาวะ</h3>
+                            <div id="anatomy-desc" class="text-slate-300 text-sm sm:text-base leading-relaxed h-32 overflow-y-auto pr-2">
+                                กรุณาคลิกที่อวัยวะบนแผนภาพด้านซ้าย (เช่น ไต, กระเพาะปัสสาวะ, ต่อมลูกหมาก) เพื่อดูรายละเอียด หน้าที่การทำงาน และโรคที่พบบ่อย
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
                 <div class="glass-panel p-1 rounded-3xl hover-float shadow-sm">
                     <div class="bg-white/70 p-6 sm:p-8 rounded-[1.4rem]">
                         <div class="flex justify-between items-center border-b-2 border-emerald-100/50 pb-5 mb-8">
@@ -374,7 +439,7 @@
     <!-- Input ซ่อนสำหรับอัปโหลดโลโก้ -->
     <input type="file" id="logoUploadInput" accept="image/*" class="hidden" onchange="handleLogoUpload(event)">
 
-    <!-- ป๊อปอัปแจ้งเตือน (Alert) - ปรับ max-w-sm เป็น max-w-md ให้อ่านบทความได้สบายตาขึ้น -->
+    <!-- ป๊อปอัปแจ้งเตือน (Alert) -->
     <div id="sysAlertModal" class="fixed inset-0 z-[200] hidden flex items-center justify-center px-4">
         <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeSysAlert()"></div>
         <div class="bg-white p-6 rounded-3xl shadow-2xl relative z-10 w-full max-w-md text-center fade-in">
@@ -512,6 +577,38 @@
                 <div class="flex justify-end gap-2 mt-6">
                     <button onclick="closePersonnelModal()" class="px-5 py-2 bg-slate-100 text-slate-600 font-bold rounded-xl hover:bg-slate-200 transition">ยกเลิก</button>
                     <button onclick="savePersonnelData()" class="px-5 py-2 bg-emerald-500 text-white font-bold rounded-xl shadow-md hover:bg-emerald-600 transition">บันทึกข้อมูล</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- หน้าต่างจัดการทีมแพทย์ -->
+    <div id="doctorsModal" class="fixed inset-0 z-[110] hidden flex items-center justify-center px-4">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeDoctorsModal()"></div>
+        <div class="bg-white p-6 rounded-3xl shadow-2xl relative z-10 w-full max-w-sm fade-in">
+            <h3 id="d-modal-title" class="text-xl font-bold text-slate-800 mb-4 border-b pb-2">เพิ่มแพทย์</h3>
+            <input type="hidden" id="d-id">
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-bold text-slate-600 mb-1">ยศ/คำนำหน้า</label>
+                    <input type="text" id="d-prefix" placeholder="เช่น นพ., พญ." class="w-full px-3 py-2 border border-slate-200 bg-slate-50 rounded-xl outline-none focus:border-emerald-500 focus:bg-white transition">
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-slate-600 mb-1">ชื่อ - นามสกุล</label>
+                    <input type="text" id="d-name" placeholder="ชื่อ นามสกุล" class="w-full px-3 py-2 border border-slate-200 bg-slate-50 rounded-xl outline-none focus:border-emerald-500 focus:bg-white transition">
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-slate-600 mb-1">ความเชี่ยวชาญ/ตำแหน่ง</label>
+                    <input type="text" id="d-role" placeholder="เช่น ศัลยแพทย์ระบบทางเดินปัสสาวะ" class="w-full px-3 py-2 border border-slate-200 bg-slate-50 rounded-xl outline-none focus:border-emerald-500 focus:bg-white transition">
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-slate-600 mb-1">อัปโหลดรูปภาพ (ไม่บังคับ)</label>
+                    <input type="file" id="d-image" accept="image/*" class="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-emerald-100 file:text-emerald-700 hover:file:bg-emerald-200 transition">
+                    <p class="text-[10px] text-slate-400 mt-1">* หากแก้ไขและไม่เลือกรูปใหม่ รูปเดิมจะยังคงอยู่</p>
+                </div>
+                <div class="flex justify-end gap-2 mt-6">
+                    <button onclick="closeDoctorsModal()" class="px-5 py-2 bg-slate-100 text-slate-600 font-bold rounded-xl hover:bg-slate-200 transition">ยกเลิก</button>
+                    <button onclick="saveDoctorsData()" class="px-5 py-2 bg-emerald-500 text-white font-bold rounded-xl shadow-md hover:bg-emerald-600 transition">บันทึกข้อมูล</button>
                 </div>
             </div>
         </div>
@@ -799,6 +896,7 @@
         let bannerImages = []; 
         let announcements = []; 
         let personnel = [];
+        let doctors = []; 
         let articles = []; 
         let faqs = []; 
         let currentDate = new Date();
@@ -820,6 +918,7 @@
                 if (data.bannerImages) bannerImages = data.bannerImages;
                 if (data.announcements) announcements = data.announcements; 
                 if (data.personnel) personnel = data.personnel;
+                if (data.doctors) doctors = data.doctors; 
                 if (data.articles) articles = data.articles; 
                 if (data.faqs) faqs = data.faqs; 
                 if (data.aboutInfo) aboutInfo = data.aboutInfo; 
@@ -846,6 +945,7 @@
                 bannerImages: bannerImages || [], 
                 announcements: announcements || [],
                 personnel: personnel || [],
+                doctors: doctors || [], 
                 articles: articles || [], 
                 faqs: faqs || [], 
                 aboutInfo: aboutInfo || {}, 
@@ -861,7 +961,7 @@
         // การวาด UI หลัก
         // ==========================================
         function switchTab(tabName) {
-            const tabs = ['home', 'about', 'personnel', 'knowledge', 'faq'];
+            const tabs = ['home', 'about', 'personnel', 'doctors', 'knowledge', 'faq'];
             tabs.forEach(t => {
                 document.getElementById('tab-' + t).classList.add('hidden');
                 document.getElementById('btn-' + t).className = "w-full text-left px-4 py-3 rounded-xl font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-700 transition-all flex items-center gap-3";
@@ -975,7 +1075,7 @@
                         ${reorderBtns}
                         ${isAdmin ? `
                             <div class="absolute top-3 right-3 flex flex-col gap-2 z-10 opacity-100 sm:opacity-0 group-hover:opacity-100 transition">
-                                <button onclick="openPersonnelModal(${p.id})" class="w-8 h-8 flex items-center justify-center bg-white text-emerald-500 hover:bg-emerald-500 hover:text-white rounded-full shadow-md transition font-bold text-xs" title="แก้ไข">✏️</button>
+                                <button onclick="openPersonnelModal(${p.id})" class="w-8 h-8 flex items-center justify-center bg-white text-emerald-500 hover:bg-emerald-500 hover:text-white rounded-full shadow-md transition font-bold text-xs" title="แก้ไข">✏️️</button>
                                 <button onclick="confirmDeletePersonnel(${p.id})" class="w-8 h-8 flex items-center justify-center bg-white text-rose-500 hover:bg-rose-500 hover:text-white rounded-full shadow-md transition font-bold" title="ลบ">✕</button>
                             </div>
                         ` : ''}
@@ -984,6 +1084,119 @@
                         <div class="mt-3"><span class="inline-block px-3 py-1 bg-emerald-50 text-emerald-700 text-xs sm:text-sm font-bold rounded-xl border border-emerald-100">${p.role}</span></div>
                     </div>
                 `;
+            });
+        }
+
+        // ==========================================
+        // ระบบทีมแพทย์ (Doctors)
+        // ==========================================
+        function renderDoctors() {
+            const list = document.getElementById('doctors-list');
+            if(!list) return;
+            list.innerHTML = '';
+            doctors.forEach((p, index) => {
+                let imageHTML = p.image 
+                    ? `<img src="${p.image}" alt="${p.name}" class="w-24 h-24 sm:w-28 sm:h-28 rounded-full mx-auto mb-4 object-cover border-4 border-white shadow-lg transform group-hover:scale-105 transition duration-300">`
+                    : `<div class="w-24 h-24 sm:w-28 sm:h-28 bg-gradient-to-br from-emerald-100 to-teal-100 rounded-full mx-auto mb-4 flex items-center justify-center text-emerald-600 font-black text-2xl sm:text-3xl border-4 border-white shadow-lg transform group-hover:scale-105 transition duration-300">${p.prefix}</div>`;
+
+                let reorderBtns = isAdmin ? `
+                    <div class="absolute top-3 left-3 flex gap-1 z-10 opacity-100 sm:opacity-0 group-hover:opacity-100 transition">
+                        <button onclick="moveDoctors(-1, ${index})" class="w-7 h-7 flex items-center justify-center bg-white text-slate-500 hover:bg-slate-200 rounded-full shadow-md transition font-bold text-xs ${index === 0 ? 'opacity-30 cursor-not-allowed' : ''}" ${index === 0 ? 'disabled' : ''}>⬆️</button>
+                        <button onclick="moveDoctors(1, ${index})" class="w-7 h-7 flex items-center justify-center bg-white text-slate-500 hover:bg-slate-200 rounded-full shadow-md transition font-bold text-xs ${index === doctors.length - 1 ? 'opacity-30 cursor-not-allowed' : ''}" ${index === doctors.length - 1 ? 'disabled' : ''}>⬇️</button>
+                    </div>
+                ` : '';
+
+                list.innerHTML += `
+                    <div class="bg-white/80 backdrop-blur-sm p-6 rounded-3xl text-center shadow-sm border border-slate-100 relative group transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+                        ${reorderBtns}
+                        ${isAdmin ? `
+                            <div class="absolute top-3 right-3 flex flex-col gap-2 z-10 opacity-100 sm:opacity-0 group-hover:opacity-100 transition">
+                                <button onclick="openDoctorsModal(${p.id})" class="w-8 h-8 flex items-center justify-center bg-white text-emerald-500 hover:bg-emerald-500 hover:text-white rounded-full shadow-md transition font-bold text-xs" title="แก้ไข">✏️</button>
+                                <button onclick="confirmDeleteDoctors(${p.id})" class="w-8 h-8 flex items-center justify-center bg-white text-rose-500 hover:bg-rose-500 hover:text-white rounded-full shadow-md transition font-bold" title="ลบ">✕</button>
+                            </div>
+                        ` : ''}
+                        ${imageHTML}
+                        <h3 class="font-bold text-slate-800 text-lg sm:text-xl tracking-tight leading-tight">${p.prefix} ${p.name}</h3>
+                        <div class="mt-3"><span class="inline-block px-3 py-1 bg-emerald-50 text-emerald-700 text-xs sm:text-sm font-bold rounded-xl border border-emerald-100">${p.role}</span></div>
+                    </div>
+                `;
+            });
+        }
+
+        function moveDoctors(direction, index) {
+            if (direction === -1 && index > 0) {
+                const temp = doctors[index];
+                doctors[index] = doctors[index - 1];
+                doctors[index - 1] = temp;
+                saveToCloud();
+            } else if (direction === 1 && index < doctors.length - 1) {
+                const temp = doctors[index];
+                doctors[index] = doctors[index + 1];
+                doctors[index + 1] = temp;
+                saveToCloud();
+            }
+        }
+
+        function openDoctorsModal(id = null) {
+            document.getElementById('doctorsModal').classList.remove('hidden');
+            const title = document.getElementById('d-modal-title');
+            const idInput = document.getElementById('d-id');
+            const prefixInput = document.getElementById('d-prefix');
+            const nameInput = document.getElementById('d-name');
+            const roleInput = document.getElementById('d-role');
+            const fileInput = document.getElementById('d-image');
+            
+            fileInput.value = '';
+            if (id) {
+                title.innerText = "แก้ไขข้อมูลแพทย์";
+                const p = doctors.find(x => x.id === id);
+                if (p) {
+                    idInput.value = p.id; prefixInput.value = p.prefix; nameInput.value = p.name; roleInput.value = p.role;
+                }
+            } else {
+                title.innerText = "เพิ่มแพทย์ใหม่";
+                idInput.value = ''; prefixInput.value = ''; nameInput.value = ''; roleInput.value = '';
+            }
+        }
+
+        function closeDoctorsModal() { document.getElementById('doctorsModal').classList.add('hidden'); }
+
+        function saveDoctorsData() {
+            const prefix = document.getElementById('d-prefix').value.trim();
+            const name = document.getElementById('d-name').value.trim();
+            const role = document.getElementById('d-role').value.trim();
+            const fileInput = document.getElementById('d-image');
+            const editingId = document.getElementById('d-id').value;
+
+            if(!prefix || !name || !role) { appAlert("ข้อมูลไม่ครบ", "กรุณากรอก ยศ/คำนำหน้า, ชื่อ และตำแหน่ง ให้ครบถ้วนครับ", "⚠"); return; }
+
+            let processSave = (imageBase64) => {
+                if (editingId) {
+                    const idx = doctors.findIndex(p => p.id == editingId);
+                    if (idx !== -1) {
+                        doctors[idx].prefix = prefix; doctors[idx].name = name; doctors[idx].role = role;
+                        if(imageBase64 !== null) doctors[idx].image = imageBase64;
+                    }
+                } else {
+                    doctors.push({ id: Date.now(), prefix: prefix, name: name, role: role, image: imageBase64 || '' });
+                }
+                saveToCloud(); closeDoctorsModal();
+            };
+
+            if (fileInput.files && fileInput.files[0]) {
+                const file = fileInput.files[0];
+                if (file.size > 2 * 1024 * 1024) { appAlert("ไฟล์ใหญ่เกินไป", "ขนาดรูปภาพต้องไม่เกิน 2MB ครับ", "❌"); return; }
+                const reader = new FileReader();
+                reader.onload = function(e) { processSave(e.target.result); };
+                reader.readAsDataURL(file);
+            } else {
+                processSave(editingId ? null : ''); 
+            }
+        }
+
+        function confirmDeleteDoctors(id) {
+            appConfirm("ลบข้อมูลทีมแพทย์", "ยืนยันการลบรายชื่อแพทย์ท่านนี้ใช่หรือไม่?", () => {
+                doctors = doctors.filter(p => p.id !== id); saveToCloud(); 
             });
         }
 
@@ -1007,7 +1220,7 @@
                     ? `<img src="${art.image}" class="w-full h-48 object-cover rounded-t-2xl">` 
                     : `<div class="w-full h-40 bg-emerald-50 flex items-center justify-center rounded-t-2xl"><span class="text-4xl">💡</span></div>`;
                 
-                // จุดที่แก้ไข: ตัดแท็กรูปภาพ HTML ออกเพื่อให้แสดงเฉพาะข้อความตัวอย่าง
+                // ตัดแท็กรูปภาพ HTML ออกเพื่อให้แสดงเฉพาะข้อความตัวอย่าง
                 let plainText = art.content.replace(/<[^>]*>?/gm, '');
                 let shortContent = plainText.length > 100 ? plainText.substring(0, 100) + '...' : plainText;
                 
@@ -1024,7 +1237,6 @@
                             <h3 class="text-lg font-bold text-slate-800 mb-2 leading-tight pr-12">${art.title}</h3>
                             <p class="text-sm text-slate-600 mb-4 whitespace-pre-line flex-1">${shortContent}</p>
                             <div class="mt-auto">
-                                <!-- จุดที่แก้ไข: เรียกใช้ฟังก์ชันอ่านบทความตัวใหม่ -->
                                 <button onclick="readFullArticle(${art.id})" class="text-emerald-600 text-sm font-bold hover:text-emerald-800 flex items-center gap-1">อ่านเพิ่มเติม <span class="text-lg">»</span></button>
                             </div>
                         </div>
@@ -1160,6 +1372,7 @@
             renderAnnouncements(); 
             renderAboutInfo(); 
             renderPersonnel();
+            renderDoctors(); 
             renderArticles();
             renderFaqs(); 
             renderSchedule();
@@ -1411,7 +1624,7 @@
             const fileInput = document.getElementById('p-image');
             const editingId = document.getElementById('p-id').value;
 
-            if(!prefix || !name || !role) { appAlert("ข้อมูลไม่ครบ", "กรุณากรอก ยศ, ชื่อ และตำแหน่ง ให้ครบถ้วนครับ", "⚠️️"); return; }
+            if(!prefix || !name || !role) { appAlert("ข้อมูลไม่ครบ", "กรุณากรอก ยศ, ชื่อ และตำแหน่ง ให้ครบถ้วนครับ", "⚠"); return; }
 
             let processSave = (imageBase64) => {
                 if (editingId) {
@@ -1601,6 +1814,44 @@
                 if(calSchedules[dateString].length === 0) delete calSchedules[dateString];
                 saveToCloud();
             });
+        }
+
+        // ==========================================
+        // ระบบ Interactive Anatomy
+        // ==========================================
+        const anatomyData = {
+            kidney: {
+                title: "ไต (Kidneys)",
+                desc: "<b>หน้าที่:</b> กรองของเสียและน้ำส่วนเกินออกจากเลือดเพื่อสร้างเป็นปัสสาวะ รวมทั้งควบคุมสมดุลแร่ธาตุและความดันโลหิต<br><br><span class='text-rose-400 font-bold'>⚠️️ โรคที่พบบ่อย:</span> นิ่วในไต, กรวยไตอักเสบ, ภาวะไตวายเฉียบพลันและเรื้อรัง"
+            },
+            bladder: {
+                title: "กระเพาะปัสสาวะ (Bladder)",
+                desc: "<b>หน้าที่:</b> เป็นอวัยวะกลวงที่มีความยืดหยุ่น ทำหน้าที่กักเก็บปัสสาวะที่ไหลมาจากท่อไต ก่อนที่จะบีบตัวเพื่อขับถ่ายออกจากร่างกาย<br><br><span class='text-rose-400 font-bold'>⚠️ โรคที่พบบ่อย:</span> กระเพาะปัสสาวะอักเสบ (UTI), นิ่วในกระเพาะปัสสาวะ, มะเร็งกระเพาะปัสสาวะ"
+            },
+            prostate: {
+                title: "ต่อมลูกหมาก (Prostate)",
+                desc: "<b>หน้าที่:</b> พบเฉพาะในเพศชาย ทำหน้าที่สร้างน้ำหล่อเลี้ยงตัวอสุจิ หุ้มล้อมรอบท่อปัสสาวะส่วนต้น<br><br><span class='text-rose-400 font-bold'>⚠️ โรคที่พบบ่อย:</span> ต่อมลูกหมากโต (BPH), ต่อมลูกหมากอักเสบ, มะเร็งต่อมลูกหมาก"
+            }
+        };
+
+        function showAnatomyInfo(organKey) {
+            const data = anatomyData[organKey];
+            if (data) {
+                const titleEl = document.getElementById('anatomy-title');
+                const descEl = document.getElementById('anatomy-desc');
+                
+                titleEl.classList.remove('fade-in');
+                descEl.classList.remove('fade-in');
+                
+                // บังคับให้เบราว์เซอร์รีเซ็ตแอนิเมชัน
+                void titleEl.offsetWidth; 
+                
+                titleEl.innerHTML = data.title;
+                descEl.innerHTML = data.desc;
+                
+                titleEl.classList.add('fade-in');
+                descEl.classList.add('fade-in');
+            }
         }
     </script>
 </body>
