@@ -963,8 +963,8 @@
             if(dots) Array.from(dots.children).forEach((dot, i) => { dot.className = `dot ${i === currentSlide ? 'active' : ''}`; });
         }
 
-        // ==========================================
-        // การเชื่อมต่อ Firebase และข้อมูล
+       // ==========================================
+        // การเชื่อมต่อ Firebase และข้อมูล (แบบแยกกิ่ง ประหยัดแบนด์วิดท์)
         // ==========================================
         const firebaseConfig = {
             apiKey: "AIzaSyAhMLr-NpXN8Dud2vYm32TLdSJu4Gz75g4",
@@ -990,7 +990,7 @@
         let doctors = []; 
         let articles = []; 
         let faqs = []; 
-        let healthTips = []; // เพิ่มตัวแปรสำหรับเกร็ดความรู้
+        let healthTips = []; 
         let currentDate = new Date();
         let calSchedules = {}; 
         let calNotes = {}; 
@@ -1004,34 +1004,81 @@
 
         const monthNamesThai = ["มกราคม","กุมภาพันธ์","มีนาคม","เมษายน","พฤษภาคม","มิถุนายน","กรกฎาคม","สิงหาคม","กันยายน","ตุลาคม","พฤศจิกายน","ธันวาคม"];
 
-        db.ref('clinicData_v4').on('value', (snapshot) => {
-            const data = snapshot.val();
-            if (data) {
-                if (data.bannerImages) bannerImages = data.bannerImages;
-                if (data.announcements) announcements = data.announcements; 
-                if (data.personnel) personnel = data.personnel;
-                if (data.doctors) doctors = data.doctors; 
-                if (data.articles) articles = data.articles; 
-                if (data.faqs) faqs = data.faqs; 
-                if (data.healthTips) healthTips = data.healthTips; // ดึงข้อมูลเกร็ดความรู้
-                if (data.aboutInfo) aboutInfo = data.aboutInfo; 
-                if (data.calSchedules) calSchedules = data.calSchedules;
-                if (data.calNotes) calNotes = data.calNotes; 
-                if (data.remarksList) remarksList = data.remarksList;
-                if (data.adminPasswordsList) adminPasswordsList = data.adminPasswordsList;
-                if (data.settings) {
-                    clinicLogo = data.settings.logo || clinicLogo;
-                    clinicAddress = data.settings.address || clinicAddress;
-                    clinicSlogan = data.settings.slogan || clinicSlogan;
-                }
+        // ✅ แยกดาวน์โหลดทีละกิ่งเรียบร้อย
+        db.ref('clinicData_v4/settings').on('value', (snapshot) => {
+            const settings = snapshot.val();
+            if (settings) {
+                clinicLogo = settings.logo || clinicLogo;
+                clinicAddress = settings.address || clinicAddress;
+                clinicSlogan = settings.slogan || clinicSlogan;
+                renderSettings();
             }
-            
-            const loadingMsg = document.getElementById('loading-msg');
-            if (loadingMsg) loadingMsg.style.display = 'none';
-            
-            applyAdminState();
-            renderAll();
         });
+
+        db.ref('clinicData_v4/announcements').on('value', (snapshot) => {
+            announcements = snapshot.val() || [];
+            renderAnnouncements();
+        });
+
+        db.ref('clinicData_v4/bannerImages').on('value', (snapshot) => {
+            bannerImages = snapshot.val() || [];
+            initCarousel();
+        });
+
+        db.ref('clinicData_v4/personnel').on('value', (snapshot) => {
+            personnel = snapshot.val() || [];
+            renderPersonnel();
+        });
+
+        db.ref('clinicData_v4/doctors').on('value', (snapshot) => {
+            doctors = snapshot.val() || [];
+            renderDoctors();
+        });
+
+        db.ref('clinicData_v4/articles').on('value', (snapshot) => {
+            articles = snapshot.val() || [];
+            renderArticles();
+        });
+
+        db.ref('clinicData_v4/faqs').on('value', (snapshot) => {
+            faqs = snapshot.val() || [];
+            renderFaqs();
+        });
+
+        db.ref('clinicData_v4/healthTips').on('value', (snapshot) => {
+            healthTips = snapshot.val() || [];
+            renderHealthTips();
+        });
+
+        db.ref('clinicData_v4/aboutInfo').on('value', (snapshot) => {
+            aboutInfo = snapshot.val() || aboutInfo;
+            renderAboutInfo();
+        });
+
+        db.ref('clinicData_v4/calSchedules').on('value', (snapshot) => {
+            calSchedules = snapshot.val() || {};
+            renderSchedule();
+        });
+
+        db.ref('clinicData_v4/calNotes').on('value', (snapshot) => {
+            calNotes = snapshot.val() || {};
+            renderSchedule();
+        });
+
+        db.ref('clinicData_v4/remarksList').on('value', (snapshot) => {
+            remarksList = snapshot.val() || [];
+            renderSettings();
+        });
+
+        db.ref('clinicData_v4/adminPasswordsList').on('value', (snapshot) => {
+            adminPasswordsList = snapshot.val() || ['admin123'];
+        });
+
+        const loadingMsg = document.getElementById('loading-msg');
+        if (loadingMsg) loadingMsg.style.display = 'none';
+        
+        applyAdminState();
+        renderAll(); // 👉 ไม่มีวงเล็บปีกกาปิดเกินแล้ว ทำงานปกติแน่นอนครับ
 
         function saveToCloud() {
             db.ref('clinicData_v4').set({
