@@ -1140,7 +1140,10 @@
             }
             
             window.scrollTo({ top: 0, behavior: 'smooth' });
-
+            const scrollContainer = document.querySelector('main').parentElement;
+            if (scrollContainer) {
+                scrollContainer.scrollTo({ top: 0, behavior: 'smooth' });
+            }
             // 🌟 พระเอกของเรา (Lazy Loading) 🌟
             // ดึงข้อมูลเฉพาะตอนที่ผู้ใช้กดเข้ามาดู และดึงแค่ครั้งเดียว
             
