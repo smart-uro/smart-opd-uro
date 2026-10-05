@@ -483,9 +483,7 @@
 
     <!-- ================== ส่วนหน้าต่างระบบและจัดการข้อมูล (Modals) ================== -->
     <!-- Input ซ่อนสำหรับอัปโหลดโลโก้ -->
-    <input type="file" id="logoUploadInput" accept="image/*" class="hidden" onchange="handleLogoUpload(event)">
-
-    <!-- ป๊อปอัปแจ้งเตือน (Alert) -->
+        <!-- ป๊อปอัปแจ้งเตือน (Alert) -->
     <div id="sysAlertModal" class="fixed inset-0 z-[200] hidden flex items-center justify-center px-4">
         <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeSysAlert()"></div>
         <div class="bg-white p-6 rounded-3xl shadow-2xl relative z-10 w-full max-w-md text-center fade-in">
@@ -560,11 +558,11 @@
                 <button onclick="closeBannerModal()" class="text-slate-400 hover:text-rose-500 font-bold p-1">✕</button>
             </div>
             <div class="space-y-4">
-                <div class="bg-emerald-50 p-4 rounded-xl border border-emerald-100">
-                    <label class="block text-sm font-bold text-emerald-800 mb-2">อัปโหลดรูปภาพใหม่ (Base64)</label>
-                    <input type="file" id="b-image" accept="image/*" class="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-bold file:bg-emerald-500 file:text-white hover:file:bg-emerald-600 transition cursor-pointer">
-                    <p class="text-[10px] text-emerald-600 mt-2 font-medium">* แนะนำรูปแนวนอน (Landscape) ขนาดไม่เกิน 2MB</p>
-                    <button onclick="uploadBannerImage()" class="w-full mt-3 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl transition shadow-md">เพิ่มรูปภาพ</button>
+               <div class="bg-emerald-50 p-4 rounded-xl border border-emerald-100">
+                    <label class="block text-sm font-bold text-emerald-800 mb-2">เพิ่มรูปลิงก์รูปภาพแบนเนอร์ (URL)</label>
+                    <input type="text" id="b-image-url" placeholder="เช่น https://example.com/banner.jpg" class="w-full px-4 py-2.5 border border-emerald-200 bg-white rounded-xl outline-none focus:border-emerald-500 transition font-medium text-sm text-slate-600">
+                    <p class="text-[10px] text-emerald-600 mt-2 font-medium">* แนะนำรูปแนวนอน (Landscape) ฝากไฟล์ที่เว็บรับฝากรูปก่อนแล้วนำลิงก์มาวาง</p>
+                    <button onclick="addBannerFromUrl()" class="w-full mt-3 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl transition shadow-md">เพิ่มรูปภาพแบนเนอร์</button>
                 </div>
                 <div>
                     <h4 class="text-sm font-bold text-slate-600 mb-2 border-b pb-1">รูปภาพปัจจุบัน</h4>
@@ -616,9 +614,9 @@
                     <input type="text" id="p-role" placeholder="เช่น แพทย์เฉพาะทาง" class="w-full px-3 py-2 border border-slate-200 bg-slate-50 rounded-xl outline-none focus:border-emerald-500 focus:bg-white transition">
                 </div>
                 <div>
-                    <label class="block text-sm font-bold text-slate-600 mb-1">อัปโหลดรูปภาพ (ไม่บังคับ)</label>
-                    <input type="file" id="p-image" accept="image/*" class="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-emerald-100 file:text-emerald-700 hover:file:bg-emerald-200 transition">
-                    <p class="text-[10px] text-slate-400 mt-1">* หากแก้ไขและไม่เลือกรูปใหม่ รูปเดิมจะยังคงอยู่</p>
+                    <label class="block text-sm font-bold text-slate-600 mb-1">ลิงก์รูปภาพ (URL - ไม่บังคับ)</label>
+                    <input type="text" id="p-image-url" placeholder="เช่น https://example.com/photo.jpg" class="w-full px-3 py-2 border border-slate-200 bg-slate-50 rounded-xl outline-none focus:border-emerald-500 focus:bg-white transition">
+                    <p class="text-[10px] text-slate-400 mt-1">* วางลิงก์รูปภาพที่ฝากไว้ หากไม่มีให้เว้นว่างไว้</p>
                 </div>
                 <div class="flex justify-end gap-2 mt-6">
                     <button onclick="closePersonnelModal()" class="px-5 py-2 bg-slate-100 text-slate-600 font-bold rounded-xl hover:bg-slate-200 transition">ยกเลิก</button>
@@ -648,9 +646,9 @@
                     <input type="text" id="d-role" placeholder="เช่น ศัลยแพทย์ระบบทางเดินปัสสาวะ" class="w-full px-3 py-2 border border-slate-200 bg-slate-50 rounded-xl outline-none focus:border-emerald-500 focus:bg-white transition">
                 </div>
                 <div>
-                    <label class="block text-sm font-bold text-slate-600 mb-1">อัปโหลดรูปภาพ (ไม่บังคับ)</label>
-                    <input type="file" id="d-image" accept="image/*" class="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-emerald-100 file:text-emerald-700 hover:file:bg-emerald-200 transition">
-                    <p class="text-[10px] text-slate-400 mt-1">* หากแก้ไขและไม่เลือกรูปใหม่ รูปเดิมจะยังคงอยู่</p>
+                    <label class="block text-sm font-bold text-slate-600 mb-1">ลิงก์รูปภาพ (URL - ไม่บังคับ)</label>
+                    <input type="text" id="d-image-url" placeholder="เช่น https://example.com/photo.jpg" class="w-full px-3 py-2 border border-slate-200 bg-slate-50 rounded-xl outline-none focus:border-emerald-500 focus:bg-white transition">
+                    <p class="text-[10px] text-slate-400 mt-1">* วางลิงก์รูปภาพที่ฝากไว้ หากไม่มีให้เว้นว่างไว้</p>
                 </div>
                 <div class="flex justify-end gap-2 mt-6">
                     <button onclick="closeDoctorsModal()" class="px-5 py-2 bg-slate-100 text-slate-600 font-bold rounded-xl hover:bg-slate-200 transition">ยกเลิก</button>
@@ -674,23 +672,23 @@
                     <input type="text" id="a-title" placeholder="เช่น การดูแลสุขภาพทางเดินปัสสาวะเบื้องต้น" class="w-full px-4 py-2.5 border border-slate-200 bg-slate-50 rounded-xl outline-none focus:border-emerald-500 focus:bg-white transition font-medium">
                 </div>
                 
-                <!-- เพิ่มปุ่มแทรกรูปลงในเนื้อหา -->
+                
+                <!-- เพิ่มปุ่มแทรกรูปลิงก์ลงในเนื้อหา (แทนที่ของเดิม) -->
                 <div>
                     <div class="flex justify-between items-center mb-1">
                         <label class="block text-sm font-bold text-slate-600">เนื้อหาบทความ</label>
-                        <button type="button" onclick="document.getElementById('a-content-image').click()" class="text-[10px] sm:text-xs bg-emerald-100 text-emerald-700 hover:bg-emerald-200 px-2 py-1 rounded font-bold transition flex items-center gap-1 shadow-sm">
-                            <span>📷</span> แทรกรูปภาพ
+                        <button type="button" onclick="insertArticleImageFromUrl()" class="text-[10px] sm:text-xs bg-emerald-100 text-emerald-700 hover:bg-emerald-200 px-2 py-1 rounded font-bold transition flex items-center gap-1 shadow-sm">
+                            <span>🔗</span> แทรกรูปลิงก์ (URL)
                         </button>
-                        <input type="file" id="a-content-image" accept="image/*" class="hidden" onchange="handleArticleContentImage(event)">
                     </div>
-                    <textarea id="a-content" rows="6" placeholder="พิมพ์เนื้อหาที่นี่... (คุณสามารถกดปุ่มแทรกรูปเพื่อใส่รูปในเนื้อหาได้)" class="w-full px-4 py-2.5 border border-slate-200 bg-slate-50 rounded-xl outline-none focus:border-emerald-500 focus:bg-white transition font-medium leading-relaxed"></textarea>
-                    <p class="text-[10px] text-slate-400 mt-1">* รูปภาพที่แทรกจะแสดงเป็นโค้ด &lt;img&gt; อัตโนมัติในช่องนี้ครับ</p>
+                    <textarea id="a-content" rows="6" placeholder="พิมพ์เนื้อหาที่นี่... (คุณสามารถกดปุ่มแทรกรูปลิงก์เพื่อใส่รูปลงในเนื้อหาได้)" class="w-full px-4 py-2.5 border border-slate-200 bg-slate-50 rounded-xl outline-none focus:border-emerald-500 focus:bg-white transition font-medium leading-relaxed"></textarea>
                 </div>
 
+                <!-- ช่องใส่ลิงก์รูปภาพหน้าปก (แทนที่ของเดิม) -->
                 <div>
-                    <label class="block text-sm font-bold text-slate-600 mb-1">อัปโหลดรูปภาพหน้าปก (แนะนำ)</label>
-                    <input type="file" id="a-image" accept="image/*" class="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-bold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100 transition cursor-pointer border border-slate-200 p-1">
-                    <p class="text-[10px] text-slate-400 mt-1">* ไฟล์ภาพขนาดไม่เกิน 2MB</p>
+                    <label class="block text-sm font-bold text-slate-600 mb-1">ลิงก์รูปภาพหน้าปก (URL - แนะนำ)</label>
+                    <input type="text" id="a-image-url" placeholder="เช่น https://example.com/cover.jpg" class="w-full px-4 py-2.5 border border-slate-200 bg-slate-50 rounded-xl outline-none focus:border-emerald-500 focus:bg-white transition font-medium">
+                    <p class="text-[10px] text-slate-400 mt-1">* วางลิงก์รูปภาพที่ฝากไว้สำหรับเป็นหน้าปกบทความ</p>
                 </div>
                 <div class="flex justify-end gap-3 mt-8">
                     <button onclick="closeArticleModal()" class="px-6 py-2.5 bg-slate-100 text-slate-600 font-bold rounded-xl hover:bg-slate-200 transition">ยกเลิก</button>
@@ -966,7 +964,7 @@
        // ==========================================
         // การเชื่อมต่อ Firebase และข้อมูล (แบบแยกกิ่ง ประหยัดแบนด์วิดท์)
         // ==========================================
-        const firebaseConfig = {
+       const firebaseConfig = {
             apiKey: "AIzaSyAhMLr-NpXN8Dud2vYm32TLdSJu4Gz75g4",
             authDomain: "xray-inventory-system.firebaseapp.com",
             databaseURL: "https://xray-inventory-system-default-rtdb.asia-southeast1.firebasedatabase.app",
@@ -981,6 +979,7 @@
         let isAdmin = localStorage.getItem('smartOdpAdmin') === 'true';
         let adminPasswordsList = ['admin123'];
 
+        // ตัวแปรเก็บข้อมูล
         let clinicLogo = 'https://cdn-icons-png.flaticon.com/512/809/809957.png';
         let clinicAddress = '123 ถนนตัวอย่าง แขวงบางขุนพรหม เขตพระนคร กรุงเทพมหานคร 10200';
         let clinicSlogan = 'ยกระดับการดูแลสุขภาพ ด้วยความเชี่ยวชาญที่คุณวางใจ';
@@ -996,108 +995,120 @@
         let calNotes = {}; 
         let remarksList = [];
         let aboutInfo = {
-            services: "• ตรวจวินิจฉัยและรักษาโรคระบบทางเดินปัสสาวะ<br>• ผ่าตัดส่องกล้องนิ่วในระบบทางเดินปัสสาวะ<br>• ตรวจคัดกรองมะเร็งต่อมลูกหมาก",
-            hours: "วันจันทร์ - วันศุกร์<br>เวลา 08.00 น. - 16.00 น.<br>(ปิดทำการในวันหยุดนักขัตฤกษ์)",
-            location: "แผนกผู้ป่วยนอก (OPD) ชั้น 2 อาคาร 1<br>โทรติดต่อ: 02-xxx-xxxx ต่อ 1234",
-            procedures: "1. ยื่นบัตรประชาชนและบัตรนัดที่จุดคัดกรอง<br>2. ซักประวัติ วัดความดัน โลหิต ชั่งน้ำหนัก<br>3. นั่งรอเรียกคิวเข้าพบแพทย์หน้าห้องตรวจ"
+            services: "• ตรวจวินิจฉัยและรักษาโรคระบบทางเดินปัสสาวะ\n• ผ่าตัดส่องกล้องนิ่วในระบบทางเดินปัสสาวะ",
+            hours: "วันจันทร์ - วันศุกร์\nเวลา 08.00 น. - 16.00 น.",
+            location: "แผนกผู้ป่วยนอก (OPD) ชั้น 2 อาคาร 1",
+            procedures: "1. ยื่นบัตรประชาชน\n2. ซักประวัติ วัดความดัน\n3. รอเรียกคิวเข้าพบแพทย์"
         };
 
         const monthNamesThai = ["มกราคม","กุมภาพันธ์","มีนาคม","เมษายน","พฤษภาคม","มิถุนายน","กรกฎาคม","สิงหาคม","กันยายน","ตุลาคม","พฤศจิกายน","ธันวาคม"];
 
-        // ✅ แยกดาวน์โหลดทีละกิ่งเรียบร้อย
-        db.ref('clinicData_v4/settings').on('value', (snapshot) => {
-            const settings = snapshot.val();
-            if (settings) {
-                clinicLogo = settings.logo || clinicLogo;
-                clinicAddress = settings.address || clinicAddress;
-                clinicSlogan = settings.slogan || clinicSlogan;
+        // ตัวแปรเช็คว่าหน้าไหนถูกโหลดข้อมูลมาแล้วบ้าง (Caching) เพื่อจะได้ไม่โหลดซ้ำ
+        let isLoaded = {
+            home: false,
+            about: false,
+            personnel: false,
+            doctors: false,
+            knowledge: false,
+            faq: false
+        };
+// 1. ฟังก์ชันโหลดข้อมูลเริ่มต้น (หน้า Home และการตั้งค่า)
+        function loadInitialData() {
+            const loadingMsg = document.getElementById('loading-msg');
+            if (loadingMsg) loadingMsg.style.display = 'block';
+
+            // ใช้ Promise.all เพื่อดึงข้อมูลเฉพาะกิ่งที่จำเป็นสำหรับหน้าแรก (ไม่ดึงกิ่ง doctors, articles, personnel)
+            Promise.all([
+                db.ref('clinicData_v4/settings').get(),
+                db.ref('clinicData_v4/adminPasswordsList').get(),
+                db.ref('clinicData_v4/bannerImages').get(),
+                db.ref('clinicData_v4/announcements').get(),
+                db.ref('clinicData_v4/healthTips').get(),
+                db.ref('clinicData_v4/calSchedules').get(),
+                db.ref('clinicData_v4/calNotes').get(),
+                db.ref('clinicData_v4/remarksList').get()
+            ]).then((snapshots) => {
+                // snapshots[0] คือ settings
+                if (snapshots[0].exists()) {
+                    const settings = snapshots[0].val();
+                    clinicLogo = settings.logo || clinicLogo;
+                    clinicAddress = settings.address || clinicAddress;
+                    clinicSlogan = settings.slogan || clinicSlogan;
+                }
+                
+                // นำข้อมูลกิ่งอื่นๆ มาเก็บลงตัวแปร
+                adminPasswordsList = snapshots[1].exists() ? snapshots[1].val() : ['admin123'];
+                bannerImages = snapshots[2].exists() ? snapshots[2].val() : [];
+                announcements = snapshots[3].exists() ? snapshots[3].val() : [];
+                healthTips = snapshots[4].exists() ? snapshots[4].val() : [];
+                calSchedules = snapshots[5].exists() ? snapshots[5].val() : {};
+                calNotes = snapshots[6].exists() ? snapshots[6].val() : {};
+                remarksList = snapshots[7].exists() ? snapshots[7].val() : [];
+
+                // อัปเดต UI หน้าแรก
                 renderSettings();
-            }
-        });
+                initCarousel();
+                renderAnnouncements();
+                renderHealthTips();
+                renderSchedule();
 
-        db.ref('clinicData_v4/announcements').on('value', (snapshot) => {
-            announcements = snapshot.val() || [];
-            renderAnnouncements();
-        });
+                isLoaded.home = true;
+                if (loadingMsg) loadingMsg.style.display = 'none';
 
-        db.ref('clinicData_v4/bannerImages').on('value', (snapshot) => {
-            bannerImages = snapshot.val() || [];
-            initCarousel();
-        });
-
-        db.ref('clinicData_v4/personnel').on('value', (snapshot) => {
-            personnel = snapshot.val() || [];
-            renderPersonnel();
-        });
-
-        db.ref('clinicData_v4/doctors').on('value', (snapshot) => {
-            doctors = snapshot.val() || [];
-            renderDoctors();
-        });
-
-        db.ref('clinicData_v4/articles').on('value', (snapshot) => {
-            articles = snapshot.val() || [];
-            renderArticles();
-        });
-
-        db.ref('clinicData_v4/faqs').on('value', (snapshot) => {
-            faqs = snapshot.val() || [];
-            renderFaqs();
-        });
-
-        db.ref('clinicData_v4/healthTips').on('value', (snapshot) => {
-            healthTips = snapshot.val() || [];
-            renderHealthTips();
-        });
-
-        db.ref('clinicData_v4/aboutInfo').on('value', (snapshot) => {
-            aboutInfo = snapshot.val() || aboutInfo;
-            renderAboutInfo();
-        });
-
-        db.ref('clinicData_v4/calSchedules').on('value', (snapshot) => {
-            calSchedules = snapshot.val() || {};
-            renderSchedule();
-        });
-
-        db.ref('clinicData_v4/calNotes').on('value', (snapshot) => {
-            calNotes = snapshot.val() || {};
-            renderSchedule();
-        });
-
-        db.ref('clinicData_v4/remarksList').on('value', (snapshot) => {
-            remarksList = snapshot.val() || [];
-            renderSettings();
-        });
-
-        db.ref('clinicData_v4/adminPasswordsList').on('value', (snapshot) => {
-            adminPasswordsList = snapshot.val() || ['admin123'];
-        });
-
-        const loadingMsg = document.getElementById('loading-msg');
-        if (loadingMsg) loadingMsg.style.display = 'none';
-        
-        applyAdminState();
-        renderAll(); // 👉 ไม่มีวงเล็บปีกกาปิดเกินแล้ว ทำงานปกติแน่นอนครับ
-
-        function saveToCloud() {
-            db.ref('clinicData_v4').set({
-                bannerImages: bannerImages || [], 
-                announcements: announcements || [],
-                personnel: personnel || [],
-                doctors: doctors || [], 
-                articles: articles || [], 
-                faqs: faqs || [], 
-                healthTips: healthTips || [], // บันทึกเกร็ดความรู้ลงฐานข้อมูล
-                aboutInfo: aboutInfo || {}, 
-                calSchedules: calSchedules || {},
-                calNotes: calNotes || {}, 
-                remarksList: remarksList || [],
-                adminPasswordsList: adminPasswordsList || ['admin123'],
-                settings: { logo: clinicLogo, address: clinicAddress, slogan: clinicSlogan }
+            }).catch(error => {
+                console.error("Error fetching initial data:", error);
+                if (loadingMsg) loadingMsg.innerHTML = '<span class="text-rose-500">เกิดข้อผิดพลาดในการโหลดข้อมูล</span>';
             });
         }
 
+        // เริ่มโหลดข้อมูลหน้าแรกทันทีที่เปิดเว็บ
+        applyAdminState();
+        loadInitialData();
+       // ==========================================
+        // ฟังก์ชันบันทึกข้อมูล (อัปเดต: ใช้ .update() และเช็ค Lazy Load ป้องกันข้อมูลหาย)
+        // ==========================================
+        function saveToCloud() {
+            // 1. สร้างก้อนข้อมูลเฉพาะสิ่งที่เราต้องการจะอัปเดต
+            let updates = {};
+
+            // --- ส่วนที่ 1: ข้อมูลที่โหลดตั้งแต่หน้าแรก (เรามีข้อมูลในมือแน่นอน เซฟได้เลย) ---
+            updates['bannerImages'] = bannerImages || []; 
+            updates['announcements'] = announcements || [];
+            updates['healthTips'] = healthTips || [];
+            updates['calSchedules'] = calSchedules || {};
+            updates['calNotes'] = calNotes || {}; 
+            updates['remarksList'] = remarksList || [];
+            updates['adminPasswordsList'] = adminPasswordsList || ['admin123'];
+            updates['settings'] = { logo: clinicLogo, address: clinicAddress, slogan: clinicSlogan };
+
+            // --- ส่วนที่ 2: ข้อมูล Lazy Load (ต้องเช็คก่อนว่าผู้ใช้เคยกดเข้าไปดูหรือยัง ถึงจะยอมเซฟทับ) ---
+            if (isLoaded.about) updates['aboutInfo'] = aboutInfo || {};
+            if (isLoaded.personnel) updates['personnel'] = personnel || [];
+            if (isLoaded.doctors) updates['doctors'] = doctors || [];
+            if (isLoaded.knowledge) updates['articles'] = articles || [];
+            if (isLoaded.faq) updates['faqs'] = faqs || [];
+
+            // 2. ใช้คำสั่ง .update() แทน .set() เพื่อส่งไปแก้ไขเฉพาะกิ่งที่ระบุ
+            db.ref('clinicData_v4').update(updates).then(() => {
+                // หลังจากบันทึกเสร็จ ให้เรียกฟังก์ชัน Render ซ้ำ เพื่ออัปเดตหน้าจอ
+                renderSettings();
+                initCarousel();
+                renderAnnouncements();
+                renderHealthTips();
+                renderSchedule();
+                
+                // Render เฉพาะหน้าที่ถูกโหลดมาแล้วเท่านั้น
+                if (isLoaded.about) renderAboutInfo();
+                if (isLoaded.personnel) renderPersonnel();
+                if (isLoaded.doctors) renderDoctors();
+                if (isLoaded.knowledge) renderArticles();
+                if (isLoaded.faq) renderFaqs();
+                
+            }).catch((error) => {
+                console.error("Save Error:", error);
+                appAlert("เกิดข้อผิดพลาด", "ไม่สามารถบันทึกข้อมูลได้ กรุณาลองใหม่", "❌");
+            });
+        }
         // ==========================================
         // การวาด UI หลัก
         // ==========================================
@@ -1107,6 +1118,7 @@
                 document.getElementById('tab-' + t).classList.add('hidden');
                 document.getElementById('btn-' + t).className = "w-full text-left px-4 py-3 rounded-xl font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-700 transition-all flex items-center gap-3";
             });
+            
             const activeSection = document.getElementById('tab-' + tabName);
             activeSection.classList.remove('hidden');
             activeSection.classList.remove('fade-in');
@@ -1115,32 +1127,67 @@
             
             document.getElementById('btn-' + tabName).className = "w-full text-left px-4 py-3 rounded-xl font-bold transition-all flex items-center gap-3 bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-md";
             
-            // ปิด Sidebar บนมือถือเมื่อกดเปลี่ยนหน้า
+            // ปิด Sidebar บนมือถือ
             if (window.innerWidth < 1024) {
-                const sidebar = document.getElementById('sidebar');
-                const overlay = document.getElementById('sidebarOverlay');
-                sidebar.classList.remove('sidebar-open');
-                sidebar.classList.add('sidebar-closed');
-                overlay.classList.add('hidden');
+                document.getElementById('sidebar').classList.replace('sidebar-open', 'sidebar-closed');
+                document.getElementById('sidebarOverlay').classList.add('hidden');
             }
 
-            // ซ่อน/แสดง ปุ่มกลับหน้าหลัก
+            // จัดการปุ่มกลับหน้าหลัก
             const backHomeBtn = document.getElementById('floatingBackHomeBtn');
             if (backHomeBtn) {
-                if (tabName === 'home') {
-                    backHomeBtn.classList.add('hidden');
-                } else {
-                    backHomeBtn.classList.remove('hidden');
-                }
+                tabName === 'home' ? backHomeBtn.classList.add('hidden') : backHomeBtn.classList.remove('hidden');
             }
             
-            window.scrollTo({ top: 0, behavior: 'smooth' }); 
-            const scrollContainer = document.querySelector('main').parentElement;
-            if (scrollContainer) {
-                scrollContainer.scrollTo({ top: 0, behavior: 'smooth' });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            // 🌟 พระเอกของเรา (Lazy Loading) 🌟
+            // ดึงข้อมูลเฉพาะตอนที่ผู้ใช้กดเข้ามาดู และดึงแค่ครั้งเดียว
+            
+            if (tabName === 'about' && !isLoaded.about) {
+                db.ref('clinicData_v4/aboutInfo').get().then((snapshot) => {
+                    aboutInfo = snapshot.val() || aboutInfo;
+                    renderAboutInfo();
+                    isLoaded.about = true;
+                });
+            }
+
+            if (tabName === 'personnel' && !isLoaded.personnel) {
+                document.getElementById('personnel-list').innerHTML = '<div class="col-span-full text-center py-10 text-emerald-600 font-bold animate-pulse">กำลังโหลดข้อมูลบุคลากร...</div>';
+                db.ref('clinicData_v4/personnel').get().then((snapshot) => {
+                    personnel = snapshot.val() || [];
+                    renderPersonnel();
+                    isLoaded.personnel = true;
+                });
+            }
+
+            if (tabName === 'doctors' && !isLoaded.doctors) {
+                document.getElementById('doctors-list').innerHTML = '<div class="col-span-full text-center py-10 text-emerald-600 font-bold animate-pulse">กำลังโหลดข้อมูลแพทย์...</div>';
+                db.ref('clinicData_v4/doctors').get().then((snapshot) => {
+                    doctors = snapshot.val() || [];
+                    renderDoctors();
+                    isLoaded.doctors = true;
+                });
+            }
+
+            if (tabName === 'knowledge' && !isLoaded.knowledge) {
+                document.getElementById('article-list').innerHTML = '<div class="col-span-full text-center py-10 text-emerald-600 font-bold animate-pulse">กำลังโหลดบทความความรู้...</div>';
+                db.ref('clinicData_v4/articles').get().then((snapshot) => {
+                    articles = snapshot.val() || [];
+                    renderArticles();
+                    isLoaded.knowledge = true;
+                });
+            }
+
+            if (tabName === 'faq' && !isLoaded.faq) {
+                document.getElementById('faq-list').innerHTML = '<div class="text-center py-10 text-emerald-600 font-bold animate-pulse">กำลังโหลดคำถามที่พบบ่อย...</div>';
+                db.ref('clinicData_v4/faqs').get().then((snapshot) => {
+                    faqs = snapshot.val() || [];
+                    renderFaqs();
+                    isLoaded.faq = true;
+                });
             }
         }
-
         function renderSettings() {
             const logoEl = document.getElementById('clinicLogoImg');
             if(logoEl) logoEl.src = clinicLogo;
@@ -1570,7 +1617,16 @@
         // ==========================================
 
         function editLogo() {
-            document.getElementById('logoUploadInput').click();
+            appPrompt("เปลี่ยนโลโก้คลินิก", "กรุณาวางลิงก์รูปภาพโลโก้ (URL) ที่ฝากไฟล์ไว้:", clinicLogo, (val) => {
+                if (val && (val.startsWith('http://') || val.startsWith('https://'))) {
+                    clinicLogo = val;
+                    saveToCloud();
+                    renderSettings();
+                    appAlert("สำเร็จ", "อัปเดตลิงก์โลโก้เรียบร้อยแล้ว", "✅");
+                } else {
+                    appAlert("รูปแบบไม่ถูกต้อง", "กรุณากรอกลิงก์ที่ถูกต้อง (ต้องขึ้นต้นด้วย http:// หรือ https://)", "❌");
+                }
+            });
         }
 function renderBannerManagementList() {
             const listContainer = document.getElementById('banner-management-list');
@@ -1595,45 +1651,7 @@ function renderBannerManagementList() {
                 `;
             });
         }
-        function handleLogoUpload(event) {
-            const file = event.target.files[0];
-            if (file) {
-                if (file.size > 2 * 1024 * 1024) { appAlert("ไฟล์ใหญ่เกินไป", "ขนาดรูปภาพต้องไม่เกิน 2MB ครับ", "❌"); return; }
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    clinicLogo = e.target.result; 
-                    saveToCloud(); 
-                    renderSettings(); 
-                    appAlert("สำเร็จ", "อัปเดตโลโก้เรียบร้อยแล้ว", "✅");
-                };
-                reader.readAsDataURL(file);
-            }
-            event.target.value = ''; 
-        }
-
-        function handleArticleContentImage(event) {
-            const file = event.target.files[0];
-            if (file) {
-                if (file.size > 2 * 1024 * 1024) { appAlert("ไฟล์ใหญ่เกินไป", "ขนาดรูปภาพต้องไม่เกิน 2MB ครับ", "❌"); return; }
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const base64 = e.target.result;
-                    const imgTag = `\n<img src="${base64}" class="w-full h-auto rounded-xl my-4 shadow-sm border border-slate-100">\n`;
-                    const textarea = document.getElementById('a-content');
-                    
-                    const startPos = textarea.selectionStart;
-                    const endPos = textarea.selectionEnd;
-                    const text = textarea.value;
-                    
-                    textarea.value = text.substring(0, startPos) + imgTag + text.substring(endPos, text.length);
-                    textarea.selectionStart = textarea.selectionEnd = startPos + imgTag.length;
-                    textarea.focus();
-                };
-                reader.readAsDataURL(file);
-            }
-            event.target.value = ''; 
-        }
-
+                
         function editAddress() {
             appPrompt("แก้ไขที่อยู่คลินิก", "ระบุข้อมูลที่อยู่ที่จะแสดงด้านล่างเว็บไซต์", clinicAddress, (val) => {
                 clinicAddress = val; saveToCloud();
@@ -1682,21 +1700,31 @@ function renderBannerManagementList() {
 
         function openBannerModal() { document.getElementById('bannerModal').classList.remove('hidden'); renderBannerManagementList(); }
         function closeBannerModal() { document.getElementById('bannerModal').classList.add('hidden'); document.getElementById('b-image').value = ''; }
-        function uploadBannerImage() {
-            const fileInput = document.getElementById('b-image');
-            if (fileInput.files && fileInput.files[0]) {
-                const file = fileInput.files[0];
-                if (file.size > 2 * 1024 * 1024) { appAlert("ไฟล์ใหญ่เกินไป", "ขนาดรูปภาพต้องไม่เกิน 2MB ครับ", "❌"); return; }
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    if(!bannerImages) bannerImages = [];
-                    bannerImages.unshift({ id: Date.now(), data: e.target.result });
-                    saveToCloud(); fileInput.value = ''; renderBannerManagementList();
-                };
-                reader.readAsDataURL(file);
-            } else {
-                appAlert("ข้อมูลไม่ครบ", "กรุณาเลือกไฟล์รูปภาพก่อนกดปุ่มเพิ่มครับ", "⚠️");
+        function addBannerFromUrl() {
+            const urlInput = document.getElementById('b-image-url');
+            const imageUrl = urlInput.value.trim();
+
+            // 1. ตรวจสอบว่าแอดมินได้กรอกลิงก์มาหรือไม่
+            if (!imageUrl) {
+                appAlert("ข้อมูลไม่ครบ", "กรุณาวางลิงก์รูปภาพแบนเนอร์ก่อนกดเพิ่มครับ", "⚠️");
+                return;
             }
+
+            // 2. ตรวจสอบรูปแบบเบื้องต้นว่าน่าจะเป็นลิงก์เว็บ (มี http หรือ https)
+            if (!imageUrl.startsWith('http://') && !imageUrl.startsWith('https://')) {
+                appAlert("รูปแบบไม่ถูกต้อง", "กรุณากรอกลิงก์ที่ถูกต้อง (ต้องขึ้นต้นด้วย http:// หรือ https://)", "❌");
+                return;
+            }
+
+            // 3. นำลิงก์ไปบันทึกในระบบ (เก็บแค่ Text ไม่กี่ Byte!)
+            if(!bannerImages) bannerImages = [];
+            bannerImages.unshift({ id: Date.now(), data: imageUrl });
+            
+            // 4. สั่งบันทึกลง Firebase และล้างค่าช่องกรอก
+            saveToCloud(); 
+            urlInput.value = ''; 
+            renderBannerManagementList();
+            appAlert("สำเร็จ", "เพิ่มลิงก์รูปภาพแบนเนอร์เรียบร้อยแล้ว", "✅");
         }
         function deleteBanner(id) {
             appConfirm("ลบรูปภาพแบนเนอร์", "ยืนยันการลบรูปภาพนี้?", () => {
@@ -1776,18 +1804,18 @@ function renderBannerManagementList() {
             const prefixInput = document.getElementById('p-prefix');
             const nameInput = document.getElementById('p-name');
             const roleInput = document.getElementById('p-role');
-            const fileInput = document.getElementById('p-image');
+            const urlInput = document.getElementById('p-image-url');
             
-            fileInput.value = '';
             if (id) {
                 title.innerText = "แก้ไขข้อมูลบุคลากร";
                 const p = personnel.find(x => x.id === id);
                 if (p) {
                     idInput.value = p.id; prefixInput.value = p.prefix; nameInput.value = p.name; roleInput.value = p.role;
+                    urlInput.value = p.image || ''; // ดึงลิงก์เก่ามาแสดง
                 }
             } else {
                 title.innerText = "เพิ่มบุคลากรใหม่";
-                idInput.value = ''; prefixInput.value = ''; nameInput.value = ''; roleInput.value = '';
+                idInput.value = ''; prefixInput.value = ''; nameInput.value = ''; roleInput.value = ''; urlInput.value = '';
             }
         }
         function closePersonnelModal() { document.getElementById('personnelModal').classList.add('hidden'); }
@@ -1795,33 +1823,22 @@ function renderBannerManagementList() {
             const prefix = document.getElementById('p-prefix').value.trim();
             const name = document.getElementById('p-name').value.trim();
             const role = document.getElementById('p-role').value.trim();
-            const fileInput = document.getElementById('p-image');
+            const imageUrl = document.getElementById('p-image-url').value.trim();
             const editingId = document.getElementById('p-id').value;
 
             if(!prefix || !name || !role) { appAlert("ข้อมูลไม่ครบ", "กรุณากรอก ยศ, ชื่อ และตำแหน่ง ให้ครบถ้วนครับ", "⚠"); return; }
+            if (imageUrl && !imageUrl.startsWith('http')) { appAlert("ลิงก์ไม่ถูกต้อง", "กรุณากรอกลิงก์ URL ที่ถูกต้องครับ", "❌"); return; }
 
-            let processSave = (imageBase64) => {
-                if (editingId) {
-                    const idx = personnel.findIndex(p => p.id == editingId);
-                    if (idx !== -1) {
-                        personnel[idx].prefix = prefix; personnel[idx].name = name; personnel[idx].role = role;
-                        if(imageBase64 !== null) personnel[idx].image = imageBase64;
-                    }
-                } else {
-                    personnel.push({ id: Date.now(), prefix: prefix, name: name, role: role, image: imageBase64 || '' });
+            if (editingId) {
+                const idx = personnel.findIndex(p => p.id == editingId);
+                if (idx !== -1) {
+                    personnel[idx].prefix = prefix; personnel[idx].name = name; personnel[idx].role = role;
+                    personnel[idx].image = imageUrl;
                 }
-                saveToCloud(); closePersonnelModal();
-            };
-
-            if (fileInput.files && fileInput.files[0]) {
-                const file = fileInput.files[0];
-                if (file.size > 2 * 1024 * 1024) { appAlert("ไฟล์ใหญ่เกินไป", "ขนาดรูปภาพต้องไม่เกิน 2MB ครับ", "❌"); return; }
-                const reader = new FileReader();
-                reader.onload = function(e) { processSave(e.target.result); };
-                reader.readAsDataURL(file);
             } else {
-                processSave(editingId ? null : ''); 
+                personnel.push({ id: Date.now(), prefix: prefix, name: name, role: role, image: imageUrl });
             }
+            saveToCloud(); closePersonnelModal();
         }
         function confirmDeletePersonnel(id) {
             appConfirm("ลบข้อมูลบุคลากร", "ยืนยันการลบรายชื่อบุคลากรนี้ใช่หรือไม่?", () => {
@@ -1850,54 +1867,43 @@ function renderBannerManagementList() {
             const prefixInput = document.getElementById('d-prefix');
             const nameInput = document.getElementById('d-name');
             const roleInput = document.getElementById('d-role');
-            const fileInput = document.getElementById('d-image');
+            const urlInput = document.getElementById('d-image-url');
             
-            fileInput.value = '';
             if (id) {
                 title.innerText = "แก้ไขข้อมูลแพทย์";
                 const p = doctors.find(x => x.id === id);
                 if (p) {
                     idInput.value = p.id; prefixInput.value = p.prefix; nameInput.value = p.name; roleInput.value = p.role;
+                    urlInput.value = p.image || '';
                 }
             } else {
                 title.innerText = "เพิ่มแพทย์ใหม่";
-                idInput.value = ''; prefixInput.value = ''; nameInput.value = ''; roleInput.value = '';
+                idInput.value = ''; prefixInput.value = ''; nameInput.value = ''; roleInput.value = ''; urlInput.value = '';
             }
         }
 
         function closeDoctorsModal() { document.getElementById('doctorsModal').classList.add('hidden'); }
 
-        function saveDoctorsData() {
+       function saveDoctorsData() {
             const prefix = document.getElementById('d-prefix').value.trim();
             const name = document.getElementById('d-name').value.trim();
             const role = document.getElementById('d-role').value.trim();
-            const fileInput = document.getElementById('d-image');
+            const imageUrl = document.getElementById('d-image-url').value.trim();
             const editingId = document.getElementById('d-id').value;
 
             if(!prefix || !name || !role) { appAlert("ข้อมูลไม่ครบ", "กรุณากรอก ยศ/คำนำหน้า, ชื่อ และตำแหน่ง ให้ครบถ้วนครับ", "⚠"); return; }
+            if (imageUrl && !imageUrl.startsWith('http')) { appAlert("ลิงก์ไม่ถูกต้อง", "กรุณากรอกลิงก์ URL ที่ถูกต้องครับ", "❌"); return; }
 
-            let processSave = (imageBase64) => {
-                if (editingId) {
-                    const idx = doctors.findIndex(p => p.id == editingId);
-                    if (idx !== -1) {
-                        doctors[idx].prefix = prefix; doctors[idx].name = name; doctors[idx].role = role;
-                        if(imageBase64 !== null) doctors[idx].image = imageBase64;
-                    }
-                } else {
-                    doctors.push({ id: Date.now(), prefix: prefix, name: name, role: role, image: imageBase64 || '' });
+            if (editingId) {
+                const idx = doctors.findIndex(p => p.id == editingId);
+                if (idx !== -1) {
+                    doctors[idx].prefix = prefix; doctors[idx].name = name; doctors[idx].role = role;
+                    doctors[idx].image = imageUrl;
                 }
-                saveToCloud(); closeDoctorsModal();
-            };
-
-            if (fileInput.files && fileInput.files[0]) {
-                const file = fileInput.files[0];
-                if (file.size > 2 * 1024 * 1024) { appAlert("ไฟล์ใหญ่เกินไป", "ขนาดรูปภาพต้องไม่เกิน 2MB ครับ", "❌"); return; }
-                const reader = new FileReader();
-                reader.onload = function(e) { processSave(e.target.result); };
-                reader.readAsDataURL(file);
             } else {
-                processSave(editingId ? null : ''); 
+                doctors.push({ id: Date.now(), prefix: prefix, name: name, role: role, image: imageUrl });
             }
+            saveToCloud(); closeDoctorsModal();
         }
 
         function confirmDeleteDoctors(id) {
@@ -1912,18 +1918,18 @@ function renderBannerManagementList() {
             const idInput = document.getElementById('a-id');
             const titleInput = document.getElementById('a-title');
             const contentInput = document.getElementById('a-content');
-            const fileInput = document.getElementById('a-image');
+            const urlInput = document.getElementById('a-image-url');
             
-            fileInput.value = '';
             if (id) {
                 titleEl.innerHTML = '<span class="text-2xl">📝</span> แก้ไขบทความ';
                 const art = articles.find(x => x.id === id);
                 if (art) {
                     idInput.value = art.id; titleInput.value = art.title; contentInput.value = art.content.replace(/<br>/g, '\n');
+                    urlInput.value = art.image || '';
                 }
             } else {
                 titleEl.innerHTML = '<span class="text-2xl">📝</span> เพิ่มบทความสุขภาพ';
-                idInput.value = ''; titleInput.value = ''; contentInput.value = '';
+                idInput.value = ''; titleInput.value = ''; contentInput.value = ''; urlInput.value = '';
             }
         }
         function closeArticleModal() { document.getElementById('articleModal').classList.add('hidden'); }
@@ -1931,41 +1937,46 @@ function renderBannerManagementList() {
         function saveArticleData() {
             const title = document.getElementById('a-title').value.trim();
             const content = document.getElementById('a-content').value.trim().replace(/\n/g, '<br>');
-            const fileInput = document.getElementById('a-image');
+            const imageUrl = document.getElementById('a-image-url').value.trim();
             const editingId = document.getElementById('a-id').value;
 
             if(!title || !content) { appAlert("ข้อมูลไม่ครบ", "กรุณากรอกหัวข้อและเนื้อหาบทความให้ครบถ้วนครับ", "⚠"); return; }
+            if (imageUrl && !imageUrl.startsWith('http')) { appAlert("ลิงก์ไม่ถูกต้อง", "กรุณากรอกลิงก์ URL ปกบทความที่ถูกต้องครับ", "❌"); return; }
 
-            let processSave = (imageBase64) => {
-                if (editingId) {
-                    const idx = articles.findIndex(a => a.id == editingId);
-                    if (idx !== -1) {
-                        articles[idx].title = title; articles[idx].content = content;
-                        if(imageBase64 !== null) articles[idx].image = imageBase64;
-                    }
-                } else {
-                    articles.unshift({ id: Date.now(), title: title, content: content, image: imageBase64 || '' });
+            if (editingId) {
+                const idx = articles.findIndex(a => a.id == editingId);
+                if (idx !== -1) {
+                    articles[idx].title = title; articles[idx].content = content;
+                    articles[idx].image = imageUrl;
                 }
-                saveToCloud(); closeArticleModal();
-            };
-
-            if (fileInput.files && fileInput.files[0]) {
-                const file = fileInput.files[0];
-                if (file.size > 2 * 1024 * 1024) { appAlert("ไฟล์ใหญ่เกินไป", "ขนาดรูปภาพต้องไม่เกิน 2MB ครับ", "❌"); return; }
-                const reader = new FileReader();
-                reader.onload = function(e) { processSave(e.target.result); };
-                reader.readAsDataURL(file);
             } else {
-                processSave(editingId ? null : ''); 
+                articles.unshift({ id: Date.now(), title: title, content: content, image: imageUrl });
             }
+            saveToCloud(); closeArticleModal();
         }
-
         function confirmDeleteArticle(id) {
             appConfirm("ลบบทความ", "ยืนยันการลบบทความนี้อย่างถาวรใช่หรือไม่?", () => {
                 articles = articles.filter(a => a.id !== id); saveToCloud(); 
             });
         }
-
+function insertArticleImageFromUrl() {
+            appPrompt("แทรกลิงก์รูปภาพในบทความ", "กรุณาวางลิงก์รูปภาพ (URL) ที่ต้องการแสดงในเนื้อหา:", "", (val) => {
+                if (val && (val.startsWith('http://') || val.startsWith('https://'))) {
+                    const imgTag = `\n<img src="${val}" class="w-full h-auto rounded-xl my-4 shadow-sm border border-slate-100">\n`;
+                    const textarea = document.getElementById('a-content');
+                    
+                    const startPos = textarea.selectionStart;
+                    const endPos = textarea.selectionEnd;
+                    const text = textarea.value;
+                    
+                    textarea.value = text.substring(0, startPos) + imgTag + text.substring(endPos, text.length);
+                    textarea.selectionStart = textarea.selectionEnd = startPos + imgTag.length;
+                    textarea.focus();
+                } else {
+                    appAlert("รูปแบบไม่ถูกต้อง", "กรุณากรอกลิงก์ที่ถูกต้อง (ต้องขึ้นต้นด้วย http:// หรือ https://)", "❌");
+                }
+            });
+        }
         function openFaqModal(id = null) {
             document.getElementById('faqModal').classList.remove('hidden');
             const titleEl = document.getElementById('f-modal-title');
